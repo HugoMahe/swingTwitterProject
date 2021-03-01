@@ -1,6 +1,7 @@
 package com.iup.tp.twitup.datamodel;
 
 import java.util.HashSet;
+import java.util.Observable;
 import java.util.Set;
 import java.util.UUID;
 

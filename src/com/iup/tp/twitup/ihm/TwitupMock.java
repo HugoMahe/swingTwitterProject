@@ -81,6 +81,7 @@ public class TwitupMock {
 	 */
 	protected void initGUI() {
 		// Création de la fenetre principale
+		System.out.println("creation de la frame MOCK");
 		mFrame = new JFrame("MOCK");
 		mFrame.setLayout(new GridBagLayout());
 
@@ -130,6 +131,7 @@ public class TwitupMock {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("envoi d'un twit");
 				TwitupMock.this.sendTwit();
 			}
 		});

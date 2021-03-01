@@ -46,7 +46,7 @@ public class Twitup {
 	/**
 	 * Idnique si le mode bouchoné est activé.
 	 */
-	protected boolean mIsMockEnabled = false;
+	protected boolean mIsMockEnabled = true;
 
 	/**
 	 * Nom de la classe de l'UI.
@@ -70,6 +70,7 @@ public class Twitup {
 
 		// Initialisation de l'IHM
 		this.initGui();
+		this.mDatabase.addObserver(mMainView);
 
 		// Initialisation du répertoire d'échange
 		this.initDirectory();
@@ -85,7 +86,6 @@ public class Twitup {
 	 * Initialisation de l'interface graphique.
 	 */
 	protected void initGui() {
-		// this.mMainView...
 		this.mMainView = new TwitupMainView();
 		
 		
