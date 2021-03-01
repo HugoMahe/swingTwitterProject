@@ -1,14 +1,20 @@
 package com.iup.tp.twitup.ihm;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 
-import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
@@ -18,29 +24,24 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 
 	public TwitupMainView() {
 		super("ma nouvelle application ");
-		// ajout du window listener
-		WindowListener wL = new WindowAdapter() {
-			public void windowClosing(WindowEvent e ) {
-				System.exit(0);
-			}
-		};
-		addWindowListener(wL);
-		// ajout d'un bouton
-		JButton bouton = new JButton("test bouton");
-		this.getContentPane().add(bouton);
-		
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);
-		
-		
-		JMenu menu = new JMenu("Fichier");
-		//JMenu menu2 =
-		menuBar.add(menu);
-		
-		setSize(200,100);
-		setVisible(true);
 		}
 
+	
+	// INIT DU DOSSIER DE BASE
+	public File askDirectory(){
+		System.out.println("Selection du fichier");
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY);
+		int retour = chooser.showOpenDialog(null);
+		if(retour== JFileChooser.APPROVE_OPTION) {
+			System.out.println("Dossier correct");
+			chooser.getSelectedFile().getName();
+			System.out.println("chemin :" + chooser.getSelectedFile());
+			return chooser.getSelectedFile();
+		}
+		return null;
+	}
+	
 	@Override
 	public void notifyTwitAdded(Twit addedTwit) {
 		// TODO Auto-generated method stub
@@ -81,5 +82,51 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 		System.out.println("user modified");
 
 	}
+
+
+	public void init() {
+		// TODO Auto-generated method stub
+		// ajout du window listener
+		WindowListener wL = new WindowAdapter() {
+			public void windowClosing(WindowEvent e ) {
+				System.exit(0);
+			}
+		};
+		addWindowListener(wL);
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar(menuBar);
+		
+		
+		JMenu menu = new JMenu("Application");
+		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("fermeture de l'application");
+				System.exit(0);
+			}
+		});
+		menu.add(JMenuItemQuitter);
+		Icon IconeQuitter = new ImageIcon(getClass().getResource("/exitIcon_20.png"));
+		System.out.println(IconeQuitter);
+		JMenuItemQuitter.setIcon(IconeQuitter);
+		menuBar.add(menu);
+		
+		JMenu menu2 = new JMenu("?");
+		JMenuItem JMenuItem = new JMenuItem( new AbstractAction("A propos de") {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Icon iconAPropos = new ImageIcon(getClass().getResource("/logoIUP_50.jpg"));
+				JOptionPane.showMessageDialog(null, "Message de a propos de ", "About", JOptionPane.INFORMATION_MESSAGE, iconAPropos );
+			}
+		});
+		menu2.add(JMenuItem);
+		menuBar.add(menu2);
+		setSize(200,100);
+		setVisible(true);
+	}
+	
+	
+	
 	}
 

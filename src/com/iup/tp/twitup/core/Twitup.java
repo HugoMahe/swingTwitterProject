@@ -9,9 +9,6 @@ import com.iup.tp.twitup.events.file.WatchableDirectory;
 import com.iup.tp.twitup.ihm.TwitupMainView;
 import com.iup.tp.twitup.ihm.TwitupMock;
 
-import javax.swing.*;
-import java.awt.event.*;;
-
 /**
  * Classe principale l'application.
  * 
@@ -46,7 +43,7 @@ public class Twitup {
 	/**
 	 * Idnique si le mode bouchoné est activé.
 	 */
-	protected boolean mIsMockEnabled = true;
+	protected boolean mIsMockEnabled = false;
 
 	/**
 	 * Nom de la classe de l'UI.
@@ -73,7 +70,7 @@ public class Twitup {
 		this.mDatabase.addObserver(mMainView);
 
 		// Initialisation du répertoire d'échange
-		this.initDirectory();
+		//this.initDirectory();
 	}
 
 	/**
@@ -87,8 +84,14 @@ public class Twitup {
 	 */
 	protected void initGui() {
 		this.mMainView = new TwitupMainView();
-		
-		
+		File retour = this.mMainView.askDirectory();
+		if(retour!=null) {
+			this.initDirectory(retour.getAbsolutePath());
+			this.mMainView.init();
+		}else {
+			System.out.println("ERREUR: Fermeture..." );
+			System.exit(-1);
+		}
 	}
 
 	/**
