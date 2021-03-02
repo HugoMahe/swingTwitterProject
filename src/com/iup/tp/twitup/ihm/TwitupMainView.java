@@ -1,5 +1,7 @@
 package com.iup.tp.twitup.ihm;
 
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
@@ -22,10 +25,7 @@ import com.iup.tp.twitup.datamodel.User;
 
 public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 
-	public TwitupMainView() {
-		super("ma nouvelle application ");
-		}
-
+	TwitupAccountCreationView accountView =null;
 	
 	// INIT DU DOSSIER DE BASE
 	public File askDirectory(){
@@ -83,20 +83,25 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 
 	}
 
+	
+	public TwitupMainView() {
+		super("ma nouvelle application ");
+
+	}
 
 	public void init() {
-		// TODO Auto-generated method stub
 		// ajout du window listener
 		WindowListener wL = new WindowAdapter() {
 			public void windowClosing(WindowEvent e ) {
 				System.exit(0);
 			}
 		};
+		
+		
 		addWindowListener(wL);
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);
-		
-		
+
 		JMenu menu = new JMenu("Application");
 		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
 			@Override
@@ -122,9 +127,38 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 		});
 		menu2.add(JMenuItem);
 		menuBar.add(menu2);
-		setSize(200,100);
+		setPreferredSize(new Dimension(600, 600));
 		setVisible(true);
 	}
+	
+	
+	public void showGUI() {
+		// Affichage dans l'EDT
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// Custom de l'affichage
+				JFrame frame = TwitupMainView.this;
+				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+				frame.setLocation((screenSize.width - frame.getWidth()) / 6,
+						(screenSize.height - frame.getHeight()) / 4);
+
+				// Affichage
+				frame.setVisible(true);
+				frame.pack();
+			}
+		});
+	}
+	
+	
+	
+	
+	public void drawAccountCreationView() {
+		accountView = new TwitupAccountCreationView();
+		this.accountView.init();
+		this.setContentPane(accountView);
+	}
+
 	
 	
 	

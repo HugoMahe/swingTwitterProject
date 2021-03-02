@@ -1,7 +1,9 @@
 package com.iup.tp.twitup.core;
 
 import java.io.File;
+import java.util.Properties;
 
+import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
@@ -49,6 +51,10 @@ public class Twitup {
 	 * Nom de la classe de l'UI.
 	 */
 	protected String mUiClassName;
+	
+	protected AccountCreationController accountController;
+	
+	protected File dossier = null;
 
 	/**
 	 * Constructeur.
@@ -69,6 +75,9 @@ public class Twitup {
 		this.initGui();
 		this.mDatabase.addObserver(mMainView);
 
+		// initialisation du controller enfant
+		
+		
 		// Initialisation du répertoire d'échange
 		//this.initDirectory();
 	}
@@ -84,14 +93,16 @@ public class Twitup {
 	 */
 	protected void initGui() {
 		this.mMainView = new TwitupMainView();
-		File retour = this.mMainView.askDirectory();
-		if(retour!=null) {
-			this.initDirectory(retour.getAbsolutePath());
-			this.mMainView.init();
+		this.mMainView.init();
+		dossier = this.mMainView.askDirectory();
+		if(dossier!=null) {
+			this.initDirectory(dossier.getAbsolutePath());
+			this.accountController = new AccountCreationController(this.mMainView);
 		}else {
 			System.out.println("ERREUR: Fermeture..." );
 			System.exit(-1);
 		}
+		this.mMainView.showGUI();
 	}
 
 	/**
@@ -141,7 +152,6 @@ public class Twitup {
 		mExchangeDirectoryPath = directoryPath;
 		mWatchableDirectory = new WatchableDirectory(directoryPath);
 		mEntityManager.setExchangeDirectory(directoryPath);
-
 		mWatchableDirectory.initWatching();
 		mWatchableDirectory.addObserver(mEntityManager);
 	}
