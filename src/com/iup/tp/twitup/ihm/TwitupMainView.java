@@ -1,16 +1,19 @@
 package com.iup.tp.twitup.ihm;
 
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -23,8 +26,10 @@ import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
 
-public class TwitupMainView  extends JFrame implements IDatabaseObserver {
+public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewObservable{
 
+	protected  Set<viewObserver> vObservers;
+	
 	TwitupAccountCreationView accountView =null;
 	
 	// INIT DU DOSSIER DE BASE
@@ -86,6 +91,7 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 	
 	public TwitupMainView() {
 		super("ma nouvelle application ");
+		this.vObservers= new HashSet<viewObserver>();
 
 	}
 
@@ -127,6 +133,17 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 		});
 		menu2.add(JMenuItem);
 		menuBar.add(menu2);
+		JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
+		boutonMireCreationCompte.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		this.add(boutonMireCreationCompte);
+		
 		setPreferredSize(new Dimension(600, 600));
 		setVisible(true);
 	}
@@ -140,27 +157,32 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver {
 				// Custom de l'affichage
 				JFrame frame = TwitupMainView.this;
 				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				frame.setLocation((screenSize.width - frame.getWidth()) / 6,
-						(screenSize.height - frame.getHeight()) / 4);
-
+				frame.setLocation((screenSize.width - frame.getWidth()) / 6, (screenSize.height - frame.getHeight()) / 4);
 				// Affichage
 				frame.setVisible(true);
 				frame.pack();
 			}
 		});
 	}
-	
-	
-	
-	
-	public void drawAccountCreationView() {
-		accountView = new TwitupAccountCreationView();
-		this.accountView.init();
-		this.setContentPane(accountView);
-	}
 
 	
-	
-	
+	public  TwitupAccountCreationView drawAccountCreationView() {
+		accountView = new TwitupAccountCreationView();
+		this.setContentPane(accountView);
+		return accountView;
 	}
+
+	@Override
+	public void addObserver(viewObserver observer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeObserver(viewObserver observer) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
 

@@ -11,6 +11,8 @@ import java.util.UUID;
  * @author S.Lucas
  */
 public class User {
+	
+	public static int userID;
 	/**
 	 * Identifiant unique de l'utilisateur.
 	 */

@@ -3,11 +3,11 @@ package com.iup.tp.twitup.core;
 import java.io.File;
 import java.util.Properties;
 
-import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
 import com.iup.tp.twitup.events.file.WatchableDirectory;
+import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.TwitupMainView;
 import com.iup.tp.twitup.ihm.TwitupMock;
 
@@ -97,7 +97,8 @@ public class Twitup {
 		dossier = this.mMainView.askDirectory();
 		if(dossier!=null) {
 			this.initDirectory(dossier.getAbsolutePath());
-			this.accountController = new AccountCreationController(this.mMainView);
+		 	/*TwitupAccountCreationView taccv =  this.mMainView.drawAccountCreationView();
+		 	this.accountController = new AccountCreationController( taccv, mDatabase );*/
 		}else {
 			System.out.println("ERREUR: Fermeture..." );
 			System.exit(-1);
