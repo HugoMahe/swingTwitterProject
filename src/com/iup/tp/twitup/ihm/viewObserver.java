@@ -5,4 +5,6 @@ public interface viewObserver {
 	
 	void notifyCreateAccount();
 	
+	void notifyConnection();
+	
 }

@@ -7,16 +7,18 @@ import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
 import com.iup.tp.twitup.events.file.WatchableDirectory;
+import com.iup.tp.twitup.ihm.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.TwitupMainView;
 import com.iup.tp.twitup.ihm.TwitupMock;
+import com.iup.tp.twitup.ihm.viewObserver;
 
 /**
  * Classe principale l'application.
  * 
  * @author S.Lucas
  */
-public class Twitup {
+public class Twitup implements viewObserver {
 	/**
 	 * Base de données.
 	 */
@@ -53,6 +55,7 @@ public class Twitup {
 	protected String mUiClassName;
 	
 	protected AccountCreationController accountController;
+	protected AccountLoginController accountLoginController;
 	
 	protected File dossier = null;
 
@@ -93,6 +96,7 @@ public class Twitup {
 	 */
 	protected void initGui() {
 		this.mMainView = new TwitupMainView();
+		this.mMainView.addObserver(this);
 		this.mMainView.init();
 		dossier = this.mMainView.askDirectory();
 		if(dossier!=null) {
@@ -160,4 +164,19 @@ public class Twitup {
 	public void show() {
 		// ... setVisible?
 	}
+
+	@Override
+	public void notifyCreateAccount() {
+		System.out.println("ouverture du menu de creation de compte");
+		TwitupAccountCreationView taccv =  this.mMainView.drawAccountCreationView();
+	 	this.accountController = new AccountCreationController( taccv, mDatabase, mEntityManager);
+	}
+
+	@Override
+	public void notifyConnection() {
+		System.out.println("ouverture du menu de connection de compte");
+		TwitUpAccountLoginView taclv =  this.mMainView.drawAccountLoginView();
+	 	this.accountLoginController = new AccountLoginController( taclv, mDatabase, mEntityManager);
+	}
+	
 }

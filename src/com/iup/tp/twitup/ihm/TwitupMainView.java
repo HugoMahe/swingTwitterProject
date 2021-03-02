@@ -31,6 +31,7 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 	protected  Set<viewObserver> vObservers;
 	
 	TwitupAccountCreationView accountView =null;
+	TwitUpAccountLoginView loginView =null;
 	
 	// INIT DU DOSSIER DE BASE
 	public File askDirectory(){
@@ -83,7 +84,6 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 
 	@Override
 	public void notifyUserModified(User modifiedUser) {
-		// TODO Auto-generated method stub
 		System.out.println("user modified");
 
 	}
@@ -133,17 +133,28 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 		});
 		menu2.add(JMenuItem);
 		menuBar.add(menu2);
-		JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
+		/*JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
 		boutonMireCreationCompte.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				for( viewObserver ob: vObservers) {
+					ob.notifyCreateAccount();
+				}
 			}
 		});
-		this.add(boutonMireCreationCompte);
-		
+		this.add(boutonMireCreationCompte);*/
+		JButton boutonMireConnection = new JButton("[Menu] Se connecter");
+		boutonMireConnection.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for( viewObserver ob: vObservers) {
+					ob.notifyConnection();
+				}
+			}
+		});
+		this.add(boutonMireConnection);
 		setPreferredSize(new Dimension(600, 600));
 		setVisible(true);
 	}
@@ -169,19 +180,27 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 	public  TwitupAccountCreationView drawAccountCreationView() {
 		accountView = new TwitupAccountCreationView();
 		this.setContentPane(accountView);
+		this.repaint();
+		this.pack();
 		return accountView;
+	}
+	
+	public  TwitUpAccountLoginView drawAccountLoginView() {
+		loginView = new TwitUpAccountLoginView();
+		this.setContentPane(loginView);
+		this.repaint();
+		this.pack();
+		return loginView;
 	}
 
 	@Override
 	public void addObserver(viewObserver observer) {
-		// TODO Auto-generated method stub
-		
+		this.vObservers.add(observer);
 	}
 
 	@Override
 	public void removeObserver(viewObserver observer) {
-		// TODO Auto-generated method stub
-		
+		this.vObservers.remove(observer);
 	}
 	
 }

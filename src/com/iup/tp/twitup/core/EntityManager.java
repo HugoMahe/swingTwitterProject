@@ -374,6 +374,7 @@ public class EntityManager implements IWatchableDirectoryObserver {
 	 * @param user
 	 */
 	public void sendUser(User user) {
+		System.out.println("ajout de l'utilisateur dans" + mDirectoryPath);
 		if (mDirectoryPath != null) {
 			// Récupération du chemin pour le fichier à générer
 			String userFileName = this.getFileName(user.getUuid(), Constants.USER_FILE_EXTENSION);
