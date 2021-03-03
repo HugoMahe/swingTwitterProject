@@ -1,24 +1,24 @@
 package com.iup.tp.twitup.core;
 
 import java.io.File;
-import java.util.Properties;
 
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
 import com.iup.tp.twitup.events.file.WatchableDirectory;
+import com.iup.tp.twitup.ihm.TwitCreationView;
 import com.iup.tp.twitup.ihm.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.TwitupMainView;
 import com.iup.tp.twitup.ihm.TwitupMock;
-import com.iup.tp.twitup.ihm.viewObserver;
+import com.iup.tp.twitup.observer.MainViewObserver;
 
 /**
  * Classe principale l'application.
  * 
  * @author S.Lucas
  */
-public class Twitup implements viewObserver {
+public class Twitup implements MainViewObserver {
 	/**
 	 * Base de données.
 	 */
@@ -56,6 +56,7 @@ public class Twitup implements viewObserver {
 	
 	protected AccountCreationController accountController;
 	protected AccountLoginController accountLoginController;
+	protected TwitController twitController;
 	
 	protected File dossier = null;
 
@@ -167,6 +168,9 @@ public class Twitup implements viewObserver {
 
 	@Override
 	public void notifyCreateAccount() {
+		if(this.accountLoginController!=null) {
+			this.accountLoginController=null;
+		}
 		System.out.println("ouverture du menu de creation de compte");
 		TwitupAccountCreationView taccv =  this.mMainView.drawAccountCreationView();
 	 	this.accountController = new AccountCreationController( taccv, mDatabase, mEntityManager);
@@ -174,9 +178,26 @@ public class Twitup implements viewObserver {
 
 	@Override
 	public void notifyConnection() {
+		if(this.accountController!=null) {
+			this.accountController=null;
+		}
 		System.out.println("ouverture du menu de connection de compte");
 		TwitUpAccountLoginView taclv =  this.mMainView.drawAccountLoginView();
 	 	this.accountLoginController = new AccountLoginController( taclv, mDatabase, mEntityManager);
+	}
+
+	@Override
+	public void notifyCreationTwit() {
+		System.out.println("lancement de la creation de twit");
+		if(this.accountController!=null) {
+			this.accountController=null;
+		}
+		if(this.accountLoginController!=null) {
+			this.accountLoginController=null;
+		}
+		TwitCreationView tcv = this.mMainView.drawTwitCreationView();
+		this.twitController = new TwitController();
+		
 	}
 	
 }

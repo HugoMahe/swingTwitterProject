@@ -3,9 +3,10 @@ package com.iup.tp.twitup.core;
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.ihm.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
-import com.iup.tp.twitup.ihm.viewObserver;
+import com.iup.tp.twitup.observer.AccountObserver;
+import com.iup.tp.twitup.observer.MainViewObserver;
 
-public class AccountLoginController implements viewObserver {
+public class AccountLoginController implements AccountObserver {
 	TwitUpAccountLoginView view;
 	private IDatabase database;
 	private EntityManager eM;
@@ -24,9 +25,10 @@ public class AccountLoginController implements viewObserver {
 	}
 
 	@Override
-	public void notifyConnection() {
+	public void notifyAccountConnection() {
 		// TODO Auto-generated method stub
 		System.out.println("CONTROLLER -> CONNECTION ACCOUNT");
+		
 	}
 
 }

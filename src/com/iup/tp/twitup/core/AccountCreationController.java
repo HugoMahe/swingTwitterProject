@@ -9,9 +9,10 @@ import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
 import com.iup.tp.twitup.events.file.WatchableDirectory;
 import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
-import com.iup.tp.twitup.ihm.viewObserver;
+import com.iup.tp.twitup.observer.AccountObserver;
+import com.iup.tp.twitup.observer.MainViewObserver;
 
-public class AccountCreationController implements viewObserver{
+public class AccountCreationController implements AccountObserver{
 	TwitupAccountCreationView view;
 	private IDatabase database;
 	private EntityManager eM;
@@ -35,7 +36,7 @@ public class AccountCreationController implements viewObserver{
 	}
 
 	@Override
-	public void notifyConnection() {
+	public void notifyAccountConnection() {
 		// TODO Auto-generated method stub
 		
 	}

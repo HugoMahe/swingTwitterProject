@@ -14,13 +14,16 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TwitUpAccountLoginView extends JPanel implements viewObservable {
+import com.iup.tp.twitup.observer.AccountObservable;
+import com.iup.tp.twitup.observer.AccountObserver;
+
+public class TwitUpAccountLoginView extends JPanel implements AccountObservable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8550093391559773959L;
-	protected Set<viewObserver> vObservers;
+	protected Set<AccountObserver> vObservers;
 	
 	//ELEMENTS GRAPHIQUES
 	JButton bouton = new JButton("Se connecter");
@@ -31,7 +34,7 @@ public class TwitUpAccountLoginView extends JPanel implements viewObservable {
 
 	public TwitUpAccountLoginView() {
 		System.out.println("lancement de la vue connection");
-		this.vObservers= new HashSet<viewObserver>();
+		this.vObservers= new HashSet<AccountObserver>();
 		this.setLayout(new GridBagLayout());
 		this.add(new JLabel("Vous connecter à votre compte"), new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(1,1,1,1), 0, 0));
 		this.add(bouton, new GridBagConstraints(1, 3, 1, 1, 1, 1, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -44,10 +47,9 @@ public class TwitUpAccountLoginView extends JPanel implements viewObservable {
 		this.bouton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
 						System.out.println("TEXT : login " + login.getText());
-					      for(viewObserver ob : vObservers) {
-					    	  ob.notifyConnection();
+					      for(AccountObserver ob : vObservers) {
+					    	  ob.notifyAccountConnection();
 					      }
 					}
 		});
@@ -58,17 +60,15 @@ public class TwitUpAccountLoginView extends JPanel implements viewObservable {
 		this.mdp.setPreferredSize(new Dimension(width, height));
 	}
 	
-	
 	@Override
-	public void addObserver(viewObserver observer) {
-		// TODO Auto-generated method stub
+	public void addObserver(AccountObserver observer) {
+		this.vObservers.add(observer);
 		
 	}
 
 	@Override
-	public void removeObserver(viewObserver observer) {
-		// TODO Auto-generated method stub
-		
+	public void removeObservers(AccountObserver observer) {
+		this.vObservers.remove(observer);
 	}
 
 }

@@ -1,6 +1,9 @@
 package com.iup.tp.twitup.ihm;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -25,13 +28,28 @@ import javax.swing.SwingUtilities;
 import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
+import com.iup.tp.twitup.observer.MainViewObservable;
+import com.iup.tp.twitup.observer.MainViewObserver;
 
-public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewObservable{
+public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainViewObservable{
 
-	protected  Set<viewObserver> vObservers;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8168615736650006368L;
+
+	protected  Set<MainViewObserver> vObservers;
 	
 	TwitupAccountCreationView accountView =null;
 	TwitUpAccountLoginView loginView =null;
+
+	private TwitCreationView twitUpView=null;
+
+	public TwitupMainView()  {
+		super("ma nouvelle application ");
+		this.vObservers= new HashSet<MainViewObserver>();
+		this.setLayout(new GridBagLayout());
+	}
 	
 	// INIT DU DOSSIER DE BASE
 	public File askDirectory(){
@@ -47,7 +65,146 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 		}
 		return null;
 	}
+
+	public void init() {
+		WindowListener wL = new WindowAdapter() {
+			public void windowClosing(WindowEvent e ) {
+				System.exit(0);
+			}
+		};
+		
+		addWindowListener(wL);
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar(menuBar);
+
+		JMenu menu = new JMenu("Application");
+		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("fermeture de l'application");
+				System.exit(0);
+			}
+		});
+		menu.add(JMenuItemQuitter);
+		Icon IconeQuitter = new ImageIcon(getClass().getResource("/exitIcon_20.png"));
+		System.out.println(IconeQuitter);
+		JMenuItemQuitter.setIcon(IconeQuitter);
+		menuBar.add(menu);
+		
+		JMenu menu2 = new JMenu("?");
+		JMenuItem JMenuItem = new JMenuItem( new AbstractAction("A propos de") {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Icon iconAPropos = new ImageIcon(getClass().getResource("/logoIUP_50.jpg"));
+				JOptionPane.showMessageDialog(null, "Message de a propos de ", "About", JOptionPane.INFORMATION_MESSAGE, iconAPropos );
+			}
+		});
+		menu2.add(JMenuItem);
+		menuBar.add(menu2);
+		JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
+		boutonMireCreationCompte.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for( MainViewObserver ob: vObservers) {
+					ob.notifyCreateAccount();
+				}
+			}
+		});
+		this.add(boutonMireCreationCompte, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		JButton boutonMireConnection = new JButton("[Menu] Se connecter");
+		boutonMireConnection.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for( MainViewObserver ob: vObservers) {
+					ob.notifyConnection();
+				}
+			}
+		});
+		this.add(boutonMireConnection, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		JButton boutonCreationTwit = new JButton("[Menu] Création d'un twit");
+		boutonCreationTwit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (MainViewObserver ob : vObservers) {
+					ob.notifyCreationTwit();
+				}
+			}
+		});
+		this.add(boutonCreationTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		
+		setPreferredSize(new Dimension(600, 600));
+		setVisible(true);
+	}
 	
+	
+	public void showGUI() {
+		// Affichage dans l'EDT
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// Custom de l'affichage
+				JFrame frame = TwitupMainView.this;
+				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+				frame.setLocation((screenSize.width - frame.getWidth()) / 6, (screenSize.height - frame.getHeight()) / 4);
+				// Affichage
+				frame.setVisible(true);
+				frame.pack();
+			}
+		});
+	}
+
+	
+	public  TwitupAccountCreationView drawAccountCreationView() {
+		if(this.loginView!=null) {
+			this.remove(loginView);
+		}
+		accountView = new TwitupAccountCreationView();
+		this.add(accountView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.revalidate();
+		this.repaint();
+		return accountView;
+	}
+	
+	public  TwitUpAccountLoginView drawAccountLoginView() {
+		if(this.accountView!=null) {
+			this.remove(accountView);
+		}
+		loginView = new TwitUpAccountLoginView();
+		this.add(loginView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.revalidate();
+		this.repaint();
+		return loginView;
+	}
+	
+	public TwitCreationView drawTwitCreationView() {
+		if(this.accountView!=null) {
+			this.remove(accountView);
+		}
+		if(this.loginView!=null) {
+			this.remove(loginView);
+		}
+		this.twitUpView = new TwitCreationView();
+		this.add(twitUpView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.revalidate();
+		this.repaint();
+		return twitUpView;
+	}
+
+	@Override
+	public void addObserver(MainViewObserver observer) {
+		this.vObservers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(MainViewObserver observer) {
+		this.vObservers.remove(observer);
+	}
+	
+
 	@Override
 	public void notifyTwitAdded(Twit addedTwit) {
 		// TODO Auto-generated method stub
@@ -88,120 +245,6 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, viewOb
 
 	}
 
-	
-	public TwitupMainView() {
-		super("ma nouvelle application ");
-		this.vObservers= new HashSet<viewObserver>();
-
-	}
-
-	public void init() {
-		// ajout du window listener
-		WindowListener wL = new WindowAdapter() {
-			public void windowClosing(WindowEvent e ) {
-				System.exit(0);
-			}
-		};
-		
-		
-		addWindowListener(wL);
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);
-
-		JMenu menu = new JMenu("Application");
-		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("fermeture de l'application");
-				System.exit(0);
-			}
-		});
-		menu.add(JMenuItemQuitter);
-		Icon IconeQuitter = new ImageIcon(getClass().getResource("/exitIcon_20.png"));
-		System.out.println(IconeQuitter);
-		JMenuItemQuitter.setIcon(IconeQuitter);
-		menuBar.add(menu);
-		
-		JMenu menu2 = new JMenu("?");
-		JMenuItem JMenuItem = new JMenuItem( new AbstractAction("A propos de") {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Icon iconAPropos = new ImageIcon(getClass().getResource("/logoIUP_50.jpg"));
-				JOptionPane.showMessageDialog(null, "Message de a propos de ", "About", JOptionPane.INFORMATION_MESSAGE, iconAPropos );
-			}
-		});
-		menu2.add(JMenuItem);
-		menuBar.add(menu2);
-		/*JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
-		boutonMireCreationCompte.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for( viewObserver ob: vObservers) {
-					ob.notifyCreateAccount();
-				}
-			}
-		});
-		this.add(boutonMireCreationCompte);*/
-		JButton boutonMireConnection = new JButton("[Menu] Se connecter");
-		boutonMireConnection.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for( viewObserver ob: vObservers) {
-					ob.notifyConnection();
-				}
-			}
-		});
-		this.add(boutonMireConnection);
-		setPreferredSize(new Dimension(600, 600));
-		setVisible(true);
-	}
-	
-	
-	public void showGUI() {
-		// Affichage dans l'EDT
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				// Custom de l'affichage
-				JFrame frame = TwitupMainView.this;
-				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				frame.setLocation((screenSize.width - frame.getWidth()) / 6, (screenSize.height - frame.getHeight()) / 4);
-				// Affichage
-				frame.setVisible(true);
-				frame.pack();
-			}
-		});
-	}
-
-	
-	public  TwitupAccountCreationView drawAccountCreationView() {
-		accountView = new TwitupAccountCreationView();
-		this.setContentPane(accountView);
-		this.repaint();
-		this.pack();
-		return accountView;
-	}
-	
-	public  TwitUpAccountLoginView drawAccountLoginView() {
-		loginView = new TwitUpAccountLoginView();
-		this.setContentPane(loginView);
-		this.repaint();
-		this.pack();
-		return loginView;
-	}
-
-	@Override
-	public void addObserver(viewObserver observer) {
-		this.vObservers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(viewObserver observer) {
-		this.vObservers.remove(observer);
-	}
 	
 }
 
