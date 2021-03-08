@@ -1,6 +1,7 @@
 package com.iup.tp.twitup.datamodel;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.iup.tp.twitup.common.Constants;
@@ -42,6 +43,18 @@ public class Database implements IDatabase {
 	public Set<User> getUsers() {
 		// Clonage pour éviter les modifications extérieures.
 		return new HashSet<User>(this.mUsers);
+	}
+	
+	public User getUser(String login, String mdp) {
+		Iterator<User> it = this.mUsers.iterator();
+		while(it.hasNext()) {
+			User userIt = it.next();
+			if(userIt.getUserTag().equals(login) && userIt.getUserPassword().equals(mdp)) {
+				System.out.println("User troué dans la BDD");
+				return userIt;
+			}
+		}
+		return null;
 	}
 
 	/**

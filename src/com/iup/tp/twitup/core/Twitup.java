@@ -12,13 +12,14 @@ import com.iup.tp.twitup.ihm.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.TwitupMainView;
 import com.iup.tp.twitup.ihm.TwitupMock;
 import com.iup.tp.twitup.observer.MainViewObserver;
+import com.iup.tp.twitup.observer.SessionObserver;
 
 /**
  * Classe principale l'application.
  * 
  * @author S.Lucas
  */
-public class Twitup implements MainViewObserver {
+public class Twitup implements MainViewObserver, SessionObserver {
 	/**
 	 * Base de données.
 	 */
@@ -197,6 +198,12 @@ public class Twitup implements MainViewObserver {
 		}
 		TwitCreationView tcv = this.mMainView.drawTwitCreationView();
 		this.twitController = new TwitController();
+		
+	}
+
+	@Override
+	public void notifyModification() {
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -70,5 +70,13 @@ public class TwitUpAccountLoginView extends JPanel implements AccountObservable 
 	public void removeObservers(AccountObserver observer) {
 		this.vObservers.remove(observer);
 	}
+	
+	public String getLoginTxt() {
+		return this.login.getText();
+	}
+	
+	public String getMdpTxt() {
+		return this.mdp.getText();
+	}
 
 }

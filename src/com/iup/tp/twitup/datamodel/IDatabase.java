@@ -27,6 +27,8 @@ public interface IDatabase {
 	 * Retourne la liste des utilisateurs
 	 */
 	Set<User> getUsers();
+	
+	User getUser(String login, String mdp);
 
 	/**
 	 * Retourne la liste des twits

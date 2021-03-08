@@ -96,9 +96,7 @@ public class TwitupAccountCreationView extends JPanel implements AccountObservab
 	@Override
 	public void addObserver(AccountObserver observer) {
 		this.vObservers.add(observer);
-		
 	}
-
 
 	@Override
 	public void removeObservers(AccountObserver observer) {
