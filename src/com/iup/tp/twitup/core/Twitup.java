@@ -2,8 +2,12 @@ package com.iup.tp.twitup.core;
 
 import java.io.File;
 
+import javax.swing.JPanel;
+
+import com.iup.tp.twitup.common.Session;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.IDatabase;
+import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
 import com.iup.tp.twitup.events.file.WatchableDirectory;
 import com.iup.tp.twitup.ihm.TwitCreationView;
@@ -58,13 +62,15 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	protected AccountCreationController accountController;
 	protected AccountLoginController accountLoginController;
 	protected TwitController twitController;
-	
+	protected Session session = null;
 	protected File dossier = null;
 
 	/**
 	 * Constructeur.
 	 */
 	public Twitup() {
+		this.session = new Session();
+		this.session.addObserver(this);
 		// Init du look and feel de l'application
 		this.initLookAndFeel();
 
@@ -75,13 +81,8 @@ public class Twitup implements MainViewObserver, SessionObserver {
 			// Initialisation du bouchon de travail
 			this.initMock();
 		}
-
 		// Initialisation de l'IHM
 		this.initGui();
-		this.mDatabase.addObserver(mMainView);
-
-		// initialisation du controller enfant
-		
 		
 		// Initialisation du répertoire d'échange
 		//this.initDirectory();
@@ -100,11 +101,10 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		this.mMainView = new TwitupMainView();
 		this.mMainView.addObserver(this);
 		this.mMainView.init();
+		//this.mMainView.session=this.session;
 		dossier = this.mMainView.askDirectory();
 		if(dossier!=null) {
 			this.initDirectory(dossier.getAbsolutePath());
-		 	/*TwitupAccountCreationView taccv =  this.mMainView.drawAccountCreationView();
-		 	this.accountController = new AccountCreationController( taccv, mDatabase );*/
 		}else {
 			System.out.println("ERREUR: Fermeture..." );
 			System.exit(-1);
@@ -168,42 +168,79 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	}
 
 	@Override
-	public void notifyCreateAccount() {
-		if(this.accountLoginController!=null) {
-			this.accountLoginController=null;
-		}
+	public void notifyCreateAccountPage() {
+//		this.emptyController();
 		System.out.println("ouverture du menu de creation de compte");
-		TwitupAccountCreationView taccv =  this.mMainView.drawAccountCreationView();
-	 	this.accountController = new AccountCreationController( taccv, mDatabase, mEntityManager);
+		// INSTANCIATION DU CONTROLLER
+	 	this.accountController = new AccountCreationController(mDatabase, mEntityManager);
+	 	// INSTANCIATION DE LA VUE
+		TwitupAccountCreationView toShow = new TwitupAccountCreationView();
+		// AJOUT DES OBSERVERS
+		toShow.addObserver(this.accountController);
+		
+		// DEMANDE A LA VUE D'AFFICHER LE CONTENU DE LA VIEW
+		this.mMainView.showView(toShow);
 	}
 
 	@Override
-	public void notifyConnection() {
-		if(this.accountController!=null) {
-			this.accountController=null;
-		}
+	public void notifyConnectionPage() {
+//		this.emptyController();
 		System.out.println("ouverture du menu de connection de compte");
-		TwitUpAccountLoginView taclv =  this.mMainView.drawAccountLoginView();
-	 	this.accountLoginController = new AccountLoginController( taclv, mDatabase, mEntityManager);
+	 	this.accountLoginController = new AccountLoginController(mDatabase, mEntityManager,this.session);
+		TwitUpAccountLoginView toShow = new TwitUpAccountLoginView();
+		toShow.addObserver(accountLoginController);
+		
+		this.mMainView.showView(toShow);
 	}
+	
+	
 
 	@Override
-	public void notifyCreationTwit() {
-		System.out.println("lancement de la creation de twit");
+	public void notifyCreationTwitPage() {
+		System.out.println("lancement de la creation de la page de twit");
+//		this.emptyController();
+		this.twitController = new TwitController();
+		TwitCreationView toShow = new TwitCreationView();
+		
+		this.mMainView.showView(toShow);
+	}
+	
+	
+	
+	/*public void emptyController() {
 		if(this.accountController!=null) {
+			this.accountController.view.removeObservers(this.accountController);
 			this.accountController=null;
 		}
 		if(this.accountLoginController!=null) {
+			this.accountLoginController.view.removeObservers(this.accountLoginController);
 			this.accountLoginController=null;
 		}
-		TwitCreationView tcv = this.mMainView.drawTwitCreationView();
-		this.twitController = new TwitController();
-		
+		if(this.twitController!=null) {
+			this.twitController.view.removeObserver(this.twitController);
+			this.twitController=null;
+		}
+	}*/
+
+	@Override
+	public void notifyModificationSession(User user) {
+		if(user!=null) {
+			this.session.setUser(user);
+			//this.mMainView.printAccountButton();
+		}
+		this.mMainView.repaint();
 	}
 
 	@Override
-	public void notifyModification() {
-		// TODO Auto-generated method stub
+	public void notifyDeconnection() {
+		this.session=new Session();
+		this.mMainView.session=this.session;
+		this.mMainView.repaint();
+	}
+
+	@Override
+	public void notifyPrintAllAccountPage() {
+		System.out.println("creation de la page d'affiche des comptes");
 		
 	}
 	

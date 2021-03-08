@@ -49,7 +49,7 @@ public class TwitUpAccountLoginView extends JPanel implements AccountObservable 
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("TEXT : login " + login.getText());
 					      for(AccountObserver ob : vObservers) {
-					    	  ob.notifyAccountConnection();
+					    	  ob.notifyAccountConnection(login.getText(), mdp.getText());
 					      }
 					}
 		});

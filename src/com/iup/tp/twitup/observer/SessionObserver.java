@@ -1,6 +1,8 @@
 package com.iup.tp.twitup.observer;
 
+import com.iup.tp.twitup.datamodel.User;
+
 public interface SessionObserver {
 
-	void notifyModification();
+	void notifyModificationSession(User user);
 }

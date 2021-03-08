@@ -67,7 +67,7 @@ public class TwitupAccountCreationView extends JPanel implements AccountObservab
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("TEXT : login " + login.getText());
 			      for(AccountObserver ob : vObservers) {
-			    	  ob.notifyCreateAccount();
+			    	  ob.notifyCreateAccount(login.getText(), mdp.getText(), name.getText());
 			      }
 			}
 		});

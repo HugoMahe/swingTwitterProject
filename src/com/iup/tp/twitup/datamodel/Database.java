@@ -50,7 +50,7 @@ public class Database implements IDatabase {
 		while(it.hasNext()) {
 			User userIt = it.next();
 			if(userIt.getUserTag().equals(login) && userIt.getUserPassword().equals(mdp)) {
-				System.out.println("User troué dans la BDD");
+				System.out.println("User trouvé dans la BDD");
 				return userIt;
 			}
 		}

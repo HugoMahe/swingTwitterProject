@@ -1,5 +1,7 @@
 package com.iup.tp.twitup.core;
 
+import javax.swing.JPanel;
+
 import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.ihm.TwitCreationView;
 import com.iup.tp.twitup.ihm.TwitUpAccountLoginView;
@@ -10,10 +12,15 @@ public class TwitController implements TwitObserver {
 	private IDatabase database;
 	private EntityManager eM;
 	
+	public TwitController() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void notifyCreateTwit() {
 		// TODO Auto-generated method stub
 		System.out.println("creation d'un twit");
+		this.view.addObserver(this);
 	}
 	
 

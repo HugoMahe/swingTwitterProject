@@ -1,5 +1,6 @@
 package com.iup.tp.twitup.ihm;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,15 +24,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
+import com.iup.tp.twitup.common.Session;
 import com.iup.tp.twitup.datamodel.IDatabaseObserver;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
+import com.iup.tp.twitup.events.file.ConnectionActionListener;
 import com.iup.tp.twitup.observer.MainViewObservable;
 import com.iup.tp.twitup.observer.MainViewObserver;
 
-public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainViewObservable{
+public class TwitupMainView  extends JFrame implements MainViewObservable{
 
 	/**
 	 * 
@@ -40,15 +45,16 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainVi
 
 	protected  Set<MainViewObserver> vObservers;
 	
-	TwitupAccountCreationView accountView =null;
-	TwitUpAccountLoginView loginView =null;
+	protected JButton boutonMireConnection;
+	public ConnectionActionListener connectionAction;
+	public Session session;
 
-	private TwitCreationView twitUpView=null;
+	protected JPanel content;
 
 	public TwitupMainView()  {
 		super("ma nouvelle application ");
 		this.vObservers= new HashSet<MainViewObserver>();
-		this.setLayout(new GridBagLayout());
+		this.connectionAction = new ConnectionActionListener(vObservers);
 	}
 	
 	// INIT DU DOSSIER DE BASE
@@ -108,37 +114,47 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainVi
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for( MainViewObserver ob: vObservers) {
-					ob.notifyCreateAccount();
+					ob.notifyCreateAccountPage();
 				}
 			}
 		});
-		this.add(boutonMireCreationCompte, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		JButton boutonMireConnection = new JButton("[Menu] Se connecter");
-		boutonMireConnection.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for( MainViewObserver ob: vObservers) {
-					ob.notifyConnection();
-				}
-			}
-		});
-		this.add(boutonMireConnection, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		
+
+		JPanel toolbar = new JPanel(new GridBagLayout());
+		
+		toolbar.add(boutonMireCreationCompte, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.boutonMireConnection = new JButton("[Menu] Se connecter");
+		this.boutonMireConnection.addActionListener(connectionAction);
+		
+		toolbar.add(boutonMireConnection, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		JButton boutonCreationTwit = new JButton("[Menu] Création d'un twit");
 		boutonCreationTwit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for (MainViewObserver ob : vObservers) {
-					ob.notifyCreationTwit();
+					ob.notifyCreationTwitPage();
 				}
 			}
 		});
-		this.add(boutonCreationTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		
+		toolbar.add(boutonCreationTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
 		setPreferredSize(new Dimension(600, 600));
+		
+		
+		content = new JPanel(new GridBagLayout());
+		content.setBorder(new LineBorder(Color.red));
+		JPanel cont = new JPanel(new GridBagLayout());
+		
+		cont.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		
+		this.setContentPane(cont);		
 		setVisible(true);
 	}
+	
+	
+	
+	
 	
 	
 	public void showGUI() {
@@ -147,52 +163,29 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainVi
 			@Override
 			public void run() {
 				// Custom de l'affichage
-				JFrame frame = TwitupMainView.this;
 				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				frame.setLocation((screenSize.width - frame.getWidth()) / 6, (screenSize.height - frame.getHeight()) / 4);
+				TwitupMainView.this.setLocation((screenSize.width - TwitupMainView.this.getWidth()) / 6, (screenSize.height - TwitupMainView.this.getHeight()) / 4);
 				// Affichage
-				frame.setVisible(true);
-				frame.pack();
+				TwitupMainView.this.setVisible(true);
 			}
 		});
 	}
-
 	
-	public  TwitupAccountCreationView drawAccountCreationView() {
-		if(this.loginView!=null) {
-			this.remove(loginView);
-		}
-		accountView = new TwitupAccountCreationView();
-		this.add(accountView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+	
+	public void showView(JPanel toShow) {
+		content.removeAll();
+		content.add(toShow, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.revalidate();
 		this.repaint();
-		return accountView;
 	}
 	
-	public  TwitUpAccountLoginView drawAccountLoginView() {
-		if(this.accountView!=null) {
-			this.remove(accountView);
-		}
-		loginView = new TwitUpAccountLoginView();
-		this.add(loginView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		this.revalidate();
-		this.repaint();
-		return loginView;
-	}
 	
-	public TwitCreationView drawTwitCreationView() {
-		if(this.accountView!=null) {
-			this.remove(accountView);
-		}
-		if(this.loginView!=null) {
-			this.remove(loginView);
-		}
-		this.twitUpView = new TwitCreationView();
-		this.add(twitUpView, new GridBagConstraints(0, 2, 3, 3, 3, 3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		this.revalidate();
-		this.repaint();
-		return twitUpView;
-	}
+	
+	/*public void printAccountButton() {
+		// TODO Auto-generated method stub
+		JButton button
+		
+	}*/
 
 	@Override
 	public void addObserver(MainViewObserver observer) {
@@ -202,47 +195,6 @@ public class TwitupMainView  extends JFrame implements IDatabaseObserver, MainVi
 	@Override
 	public void removeObserver(MainViewObserver observer) {
 		this.vObservers.remove(observer);
-	}
-	
-
-	@Override
-	public void notifyTwitAdded(Twit addedTwit) {
-		// TODO Auto-generated method stub
-		System.out.println("twit added");
-	}
-
-	@Override
-	public void notifyTwitDeleted(Twit deletedTwit) {
-		// TODO Auto-generated method stub
-		System.out.println("twit deleted");
-
-	}
-
-	@Override
-	public void notifyTwitModified(Twit modifiedTwit) {
-		// TODO Auto-generated method stub
-		System.out.println("twit modified");
-
-	}
-
-	@Override
-	public void notifyUserAdded(User addedUser) {
-		// TODO Auto-generated method stub
-		System.out.println("user added");
-
-	}
-
-	@Override
-	public void notifyUserDeleted(User deletedUser) {
-		// TODO Auto-generated method stub
-		System.out.println("user deleted");
-
-	}
-
-	@Override
-	public void notifyUserModified(User modifiedUser) {
-		System.out.println("user modified");
-
 	}
 
 	

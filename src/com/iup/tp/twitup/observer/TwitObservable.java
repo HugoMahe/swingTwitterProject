@@ -4,7 +4,7 @@ public interface TwitObservable {
 
 	void addObserver(TwitObserver observer);
 	
-	void removeObservers(TwitObserver observer);
+	void removeObserver(TwitObserver observer);
 	
 	
 }

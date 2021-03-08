@@ -3,9 +3,13 @@ package com.iup.tp.twitup.observer;
 public interface MainViewObserver {
 
 	
-	void notifyCreateAccount();
+	void notifyCreateAccountPage();
 	
-	void notifyConnection();
+	void notifyConnectionPage();
 	
-	void notifyCreationTwit();
+	void notifyCreationTwitPage();
+	
+	void notifyPrintAllAccountPage();
+	
+	void notifyDeconnection();
 }

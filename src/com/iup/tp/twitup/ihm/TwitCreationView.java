@@ -23,7 +23,7 @@ public class TwitCreationView extends JPanel implements TwitObservable  {
 	}
 
 	@Override
-	public void removeObservers(TwitObserver observer) {
+	public void removeObserver(TwitObserver observer) {
 		this.tO.remove(observer);
 	}
 

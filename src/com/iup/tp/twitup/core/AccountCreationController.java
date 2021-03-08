@@ -17,26 +17,23 @@ public class AccountCreationController implements AccountObserver{
 	private IDatabase database;
 	private EntityManager eM;
 	
-	public AccountCreationController(TwitupAccountCreationView view, IDatabase database, EntityManager Em) {
-		this.view=view;
-		this.view.addObserver(this);
+	public AccountCreationController(IDatabase database, EntityManager Em) {
 		this.database= database;
 		this.eM=Em;
 	}
 
 	@Override
-	public void notifyCreateAccount() {
-		System.out.println("CONTROLLER -> CREATION ACCOUNT :" + this.view.getLoginText() + "--" + this.view.getMdpText() + " ---" + this.view.getNameText());
-		if(this.view.getLoginText()!="" && this.view.getMdpText()!="" && this.view.getNameText()!="") {
+	public void notifyCreateAccount(String login, String mdp, String name) {
+		System.out.println("CONTROLLER -> CREATION ACCOUNT :" + login + "--" + mdp + " ---" + name);
+		if(login!="" && mdp!="" && name!="") {
 			System.out.println("pas vide");
-			User user = new User(UUID.randomUUID(), this.view.getLoginText(), this.view.getMdpText(), this.view.getNameText(), new HashSet<String>(), null);
+			User user = new User(UUID.randomUUID(), login, mdp, name, new HashSet<String>(), null);
 			this.eM.sendUser(user);
 		}
-
 	}
 
 	@Override
-	public void notifyAccountConnection() {
+	public void notifyAccountConnection(String login, String mdp) {
 		// TODO Auto-generated method stub
 		
 	}
