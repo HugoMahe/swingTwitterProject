@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Properties;
 import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
+import com.iup.tp.twitup.datamodel.ListeTwit;
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
@@ -216,7 +217,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	@Override
 	public void notifyCreationTwitPage() {
 		System.out.println("lancement de la creation de la page de twit");
-		this.twitController = new TwitController(this.session,this.mEntityManager);
+		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase);
 		TwitCreationView toShow = new TwitCreationView();
 		toShow.addObserver(twitController);
 		
@@ -227,8 +228,13 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	public void notifyFilTwitPage() {
 		System.out.println("lancement de l'affichage du fil de twit");
 		
-		// IL Y A UN CONTROLLER ASOCIE ? (VOIR AVEC LEO) 
-		TwitFilView ftv = new TwitFilView(this.mDatabase.getTwits());
+		ListeTwit twits = new ListeTwit(this.mDatabase.getTwits());
+		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase);
+		this.twitController.setTwits(twits);
+		
+		TwitFilView ftv = new TwitFilView(twits);
+		ftv.addObserver(this.twitController);
+		
 		this.mMainView.showView(ftv);
 	}
 
@@ -236,7 +242,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	public void notifyModificationSession(User user) {
 		if(user!=null) {
 			this.session.setUser(user);
-			System.out.println("il est connectÃ©");
+			System.out.println("Il est connecté");
 			this.mMainView.printAccountButton();
 		}
 		this.mMainView.repaint();
