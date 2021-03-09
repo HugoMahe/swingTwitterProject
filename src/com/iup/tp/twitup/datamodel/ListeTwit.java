@@ -17,6 +17,7 @@ public class ListeTwit implements ListeTwitObservable {
 		this.observers = new HashSet<>();
 		this.twits = new ArrayList<>();
 		this.twits.addAll(twits);
+		this.trierListe();
 	}
 
 	public List<Twit> getTwits() {
