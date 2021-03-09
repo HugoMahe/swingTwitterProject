@@ -14,6 +14,12 @@ import javax.swing.JPanel;
 import com.iup.tp.twitup.datamodel.Twit;
 
 public class TwitComponent extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2823819857434484364L;
+
+	@SuppressWarnings("deprecation")
 	public TwitComponent(Twit twit) {
 		this.setLayout(new GridBagLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.BLUE));

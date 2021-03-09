@@ -113,6 +113,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 	/***
 	 * 
 	 */
+	@SuppressWarnings("serial")
 	public void defineMenuItems() {
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);

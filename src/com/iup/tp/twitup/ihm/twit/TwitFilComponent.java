@@ -12,6 +12,11 @@ import javax.swing.JScrollPane;
 import com.iup.tp.twitup.datamodel.Twit;
 
 public class TwitFilComponent extends JScrollPane {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2796037766814402917L;
+
 	public TwitFilComponent(Set<Twit> twits) {
 		this.setPreferredSize(new Dimension(250, 300));
 		

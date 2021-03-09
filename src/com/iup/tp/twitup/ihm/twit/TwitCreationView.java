@@ -19,6 +19,10 @@ import com.iup.tp.twitup.observer.twit.TwitObserver;
 
 public class TwitCreationView extends JPanel  implements TwitObservable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5243599319422009904L;
+	/**
 	 * Champ de saisie du twit.
 	 */
 	protected JTextArea twitField;

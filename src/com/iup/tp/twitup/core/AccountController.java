@@ -1,15 +1,11 @@
 package com.iup.tp.twitup.core;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
-import com.iup.tp.twitup.events.file.IWatchableDirectory;
-import com.iup.tp.twitup.events.file.WatchableDirectory;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
-import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.account.AccountObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 import com.iup.tp.twitup.observer.session.SessionObserver;
@@ -26,15 +22,11 @@ public class AccountController implements AccountObserver{
 		this.session=session;
 	}
 
+	/**
+	 * Vérification des informations de création de compte
+	 */
 	@Override
 	public void notifyCreateAccount(String tag, String mdp, String confirmation, String name, String avatar) {
-		/*System.out.println("CONTROLLER -> CREATION ACCOUNT :" + login + "--" + mdp + " ---" + name);
-		if(login!="" && mdp!="" && name!="") {
-			System.out.println("pas vide");
-			User user = new User(UUID.randomUUID(), login, mdp, name, new HashSet<String>(), null);
-			this.eM.sendUser(user);
-		}*/
-		
 		String erreur = "";
 		if (tag == null) {
 			erreur += "Tag null\n";
@@ -74,27 +66,21 @@ public class AccountController implements AccountObserver{
 			// Ajout de l'utilisateur Ã  la base
 			this.eM.sendUser(newUser);
 		}else {
-			System.out.println("L'user n'a pas pu Ãªtre ajoutÃ© en base :");
+			System.out.println("L'user n'a pas pu être ajouté en base :");
 			System.out.print(erreur);
 		}
 	}
 
+	/**
+	 * Verification des identifiants de connection -> instanciation de la session
+	 */
 	@Override
 	public void notifyAccountConnection(String tag, String mdp) {
-		/*System.out.println("CONTROLLER -> CONNECTION ACCOUNT");
-		System.out.println("Tentative de connection");
-		User user = this.database.getUser(login,mdp);
-		if(user!=null) {
-			System.out.println("creation de la session");
-			for(SessionObserver s : this.session.sObservers) {
-				s.notifyModificationSession(user);
-			}
-		}*/
 		User user = this.database.getUserBytag(tag);
 		if (user != null) {
 			if (user.getUserPassword().equals(mdp)) {
-				System.out.println(tag + " trouvÃ©");
-				System.out.println("creation de la session");
+				System.out.println(tag + " trouvé");
+				System.out.println("création de la session");
 				if(this.session!=null) {
 					for(SessionObserver so :  this.session.sObservers) {
 						so.notifyModificationSession(user);
@@ -106,7 +92,7 @@ public class AccountController implements AccountObserver{
 			}
 		}
 		else {
-			System.out.println("Utilisateur non trouvÃ©");
+			System.out.println("Utilisateur non trouvé");
 		}
 	}
 }

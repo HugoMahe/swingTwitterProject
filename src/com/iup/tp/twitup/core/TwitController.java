@@ -1,12 +1,8 @@
 package com.iup.tp.twitup.core;
 
-import javax.swing.JPanel;
 
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.Twit;
-import com.iup.tp.twitup.ihm.account.TwitUpAccountLoginView;
-import com.iup.tp.twitup.ihm.twit.TwitCreationView;
-import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 import com.iup.tp.twitup.observer.twit.TwitObserver;
 
 public class TwitController implements TwitObserver {

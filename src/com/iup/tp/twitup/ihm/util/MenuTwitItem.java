@@ -12,10 +12,16 @@ import javax.swing.JOptionPane;
 
 public class MenuTwitItem extends JMenuBar {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2815092497057554492L;
+
 	public MenuTwitItem() {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu menu = new JMenu("Application");
+		@SuppressWarnings("serial")
 		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -30,6 +36,7 @@ public class MenuTwitItem extends JMenuBar {
 		menuBar.add(menu);
 		
 		JMenu menu2 = new JMenu("?");
+		@SuppressWarnings("serial")
 		JMenuItem JMenuItem = new JMenuItem( new AbstractAction("A propos de") {
 			
 			@Override

@@ -17,6 +17,10 @@ import com.iup.tp.twitup.observer.MainViewObserver;
 public class ButtonPanelView extends JPanel{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1802679045628616353L;
 	protected JButton boutonMireConnection;
 	protected ActionListener connectionAction;
 	private Set<MainViewObserver> observers;
@@ -26,7 +30,7 @@ public class ButtonPanelView extends JPanel{
 		this.setLayout(new GridBagLayout());
 		this.observers = vObservers;
 		// TODO Auto-generated constructor stub
-		JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
+		JButton boutonMireCreationCompte = new JButton("Creer son compte");
 		boutonMireCreationCompte.addActionListener(new ActionListener() {
 			
 			@Override
@@ -41,7 +45,7 @@ public class ButtonPanelView extends JPanel{
 		
 		
 		
-		this.boutonMireConnection = new JButton("[Menu] Se connecter");		
+		this.boutonMireConnection = new JButton("Se connecter");		
 		this.boutonMireConnection.addActionListener(new ActionListener() {
 			
 			@Override
@@ -73,7 +77,7 @@ public class ButtonPanelView extends JPanel{
 		System.out.println("Showing hide buttons");
 		
 		////// BOUTON DE CREATION D'UN TWIT
-		JButton boutonCreationTwit = new JButton("CrÃ©ation d'un twit");
+		JButton boutonCreationTwit = new JButton("Création d'un twit");
 		boutonCreationTwit.addActionListener(new ActionListener() {
 			
 			@Override
@@ -100,7 +104,7 @@ public class ButtonPanelView extends JPanel{
 		
 		
 		
-		JButton boutonDeconnection = new JButton("Se dÃ©connecter");
+		JButton boutonDeconnection = new JButton("Se déconnecter");
 		boutonDeconnection.addActionListener(new ActionListener() {
 			
 			@Override

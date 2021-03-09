@@ -76,6 +76,7 @@ public class TwitUpAccountLoginView extends JPanel implements AccountObservable 
 	
 	protected void tentativeConnexion() {
 		String tag = this.tagField.getText();
+		@SuppressWarnings("deprecation")
 		String password = this.passwordField.getText();
 
 		for (AccountObserver observer: this.vObservers) {

@@ -131,6 +131,7 @@ public class TwitupAccountCreationView extends JPanel implements AccountObservab
 	}
 
 	
+	@SuppressWarnings("deprecation")
 	protected void tenterCreerUser() {
 		// Cr�ation d'un utilisateur
 		String tag = this.tagField.getText();

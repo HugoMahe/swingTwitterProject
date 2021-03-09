@@ -2,9 +2,6 @@ package com.iup.tp.twitup.core;
 
 import java.io.File;
 import java.util.Properties;
-
-import javax.swing.JPanel;
-
 import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.Session;
@@ -128,16 +125,13 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	
 	protected void initDirectory() {
 		//System.out.println(System.getProperty("sun.arch.data.model"));
-		System.out.println("ressource properties " + getClass().getResource("/configuration.properties"));
-		Properties prop =  this.propManager.loadProperties(getClass().getResource("/configuration.properties").getFile());
-		System.out.println(prop);
-		System.out.println("la " + prop.getProperty("EXCHANGE_DIRECTORY"));
+		Properties prop =  PropertiesManager.loadProperties(getClass().getResource("/configuration.properties").getFile());
 		if(prop.getProperty("EXCHANGE_DIRECTORY").length()==0) {
 			dossier = this.mMainView.askDirectory();
 			if(dossier!=null) {
 				this.initDirectory(dossier.getAbsolutePath());
 				prop.setProperty("EXCHANGE_DIRECTORY", dossier.getAbsolutePath());
-				propManager.writeProperties(prop, getClass().getResource("/configuration.properties").getFile());
+				PropertiesManager.writeProperties(prop, getClass().getResource("/configuration.properties").getFile());
 			}else {
 				System.out.println("ERREUR: Fermeture..." );
 				System.exit(-1);

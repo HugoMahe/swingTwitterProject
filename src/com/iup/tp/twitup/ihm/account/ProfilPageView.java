@@ -18,6 +18,11 @@ import com.iup.tp.twitup.datamodel.Session;
 
 public class ProfilPageView extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 441175835203834866L;
+
 	public ProfilPageView(Session session) {
 		// TODO Auto-generated constructor stub
 		this.setLayout(new GridBagLayout());
