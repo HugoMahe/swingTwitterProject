@@ -144,7 +144,6 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 	}
 	
 	
-	
 	public void showGUI() {
 		// Affichage dans l'EDT
 		SwingUtilities.invokeLater(new Runnable() {
@@ -152,7 +151,6 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 			public void run() {
 				// Custom de l'affichage
 				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				System.out.println("tousse" + TwitupMainView.this.getWidth() );
 				TwitupMainView.this.setLocation((screenSize.width - TwitupMainView.this.getWidth()) / 6, (screenSize.height - TwitupMainView.this.getHeight()) / 4);
 				// Affichage
 				TwitupMainView.this.pack();

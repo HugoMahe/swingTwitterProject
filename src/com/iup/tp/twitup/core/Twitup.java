@@ -1,9 +1,11 @@
 package com.iup.tp.twitup.core;
 
 import java.io.File;
+import java.util.Properties;
 
 import javax.swing.JPanel;
 
+import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
@@ -61,6 +63,8 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	 */
 	protected String mUiClassName;
 	
+	protected PropertiesManager propManager = new PropertiesManager();
+	
 	protected AccountController accountController;
 	protected TwitController twitController;
 	protected Session session = null;
@@ -86,7 +90,10 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		this.initGui();
 		
 		// Initialisation du rÃ©pertoire d'Ã©change
-		//this.initDirectory();
+		this.initDirectory();
+		
+		
+		this.mMainView.showGUI();
 	}
 
 	/**
@@ -102,15 +109,13 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		this.mMainView = new TwitupMainView();
 		this.mMainView.addObserver(this);
 		this.mMainView.init();
-		//this.mMainView.session=this.session;
-		dossier = this.mMainView.askDirectory();
+		/*dossier = this.mMainView.askDirectory();
 		if(dossier!=null) {
 			this.initDirectory(dossier.getAbsolutePath());
 		}else {
 			System.out.println("ERREUR: Fermeture..." );
 			System.exit(-1);
-		}
-		this.mMainView.showGUI();
+		}*/
 	}
 
 	/**
@@ -119,8 +124,27 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	 * <b>Le chemin doit obligatoirement avoir Ã©tÃ© saisi et Ãªtre valide avant de
 	 * pouvoir utiliser l'application</b>
 	 */
-	/////////////// A FAIRE AVEC LEO
+	
+	
 	protected void initDirectory() {
+		//System.out.println(System.getProperty("sun.arch.data.model"));
+		System.out.println("ressource properties " + getClass().getResource("/configuration.properties"));
+		Properties prop =  this.propManager.loadProperties(getClass().getResource("/configuration.properties").getFile());
+		System.out.println(prop);
+		System.out.println("la " + prop.getProperty("EXCHANGE_DIRECTORY"));
+		if(prop.getProperty("EXCHANGE_DIRECTORY").length()==0) {
+			dossier = this.mMainView.askDirectory();
+			if(dossier!=null) {
+				this.initDirectory(dossier.getAbsolutePath());
+				prop.setProperty("EXCHANGE_DIRECTORY", dossier.getAbsolutePath());
+				propManager.writeProperties(prop, getClass().getResource("/configuration.properties").getFile());
+			}else {
+				System.out.println("ERREUR: Fermeture..." );
+				System.exit(-1);
+			}
+		}else {
+			this.initDirectory(prop.getProperty("EXCHANGE_DIRECTORY"));
+		}
 	}
 
 	/**
@@ -198,8 +222,9 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	@Override
 	public void notifyCreationTwitPage() {
 		System.out.println("lancement de la creation de la page de twit");
-		this.twitController = new TwitController();
+		this.twitController = new TwitController(this.session,this.mEntityManager);
 		TwitCreationView toShow = new TwitCreationView();
+		toShow.addObserver(twitController);
 		
 		this.mMainView.showView(toShow);
 	}

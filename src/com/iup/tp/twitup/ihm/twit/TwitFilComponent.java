@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 
 import com.iup.tp.twitup.datamodel.Twit;
 
-public class FilTwitComponent extends JScrollPane {
-	public FilTwitComponent(Set<Twit> twits) {
+public class TwitFilComponent extends JScrollPane {
+	public TwitFilComponent(Set<Twit> twits) {
 		this.setPreferredSize(new Dimension(250, 300));
 		
 		JPanel fil = new JPanel();

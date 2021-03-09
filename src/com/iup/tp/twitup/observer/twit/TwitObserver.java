@@ -2,5 +2,5 @@ package com.iup.tp.twitup.observer.twit;
 
 public interface TwitObserver {
 
-	void notifyCreateTwit();
+	void notifyCreateTwit(String text);
 }

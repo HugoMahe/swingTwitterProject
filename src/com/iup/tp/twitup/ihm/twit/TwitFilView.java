@@ -27,7 +27,7 @@ public class TwitFilView extends JPanel {
 		JLabel titreLabel = new JLabel("Fil twitter");
 		titreLabel.setFont(new Font("Arial",Font.BOLD,12));
 		
-		FilTwitComponent filTwit = new FilTwitComponent(twits);
+		TwitFilComponent filTwit = new TwitFilComponent(twits);
 		
 		this.add(titreLabel, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, 
 				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
