@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.iup.tp.twitup.common.Constants;
-import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.datamodel.converter.XmlbeanDatamodelConverter;
@@ -17,6 +16,7 @@ import com.iup.tp.twitup.datamodel.jaxb.JaxbWriter;
 import com.iup.tp.twitup.datamodel.jaxb.bean.twit.TwitXml;
 import com.iup.tp.twitup.datamodel.jaxb.bean.user.UserXml;
 import com.iup.tp.twitup.events.file.IWatchableDirectoryObserver;
+import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 
 /**
  * Classe de gestion de la mise à jour de la base de données et de génération
@@ -29,7 +29,7 @@ public class EntityManager implements IWatchableDirectoryObserver {
 	/**
 	 * Base de donnée de l'application.
 	 */
-	protected final IDatabase mDatabase;
+	protected final IDatabaseObservable mDatabase;
 
 	/**
 	 * Chemin d'accès au répertoire d'échange.
@@ -54,7 +54,7 @@ public class EntityManager implements IWatchableDirectoryObserver {
 	/**
 	 * Constructeur.
 	 */
-	public EntityManager(IDatabase database) {
+	public EntityManager(IDatabaseObservable database) {
 		this.mDatabase = database;
 		this.mUserMap = new HashMap<UUID, User>();
 		this.mTwitFileMap = new HashMap<String, Twit>();

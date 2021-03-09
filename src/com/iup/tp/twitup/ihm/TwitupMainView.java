@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -28,11 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import com.iup.tp.twitup.common.Session;
-import com.iup.tp.twitup.datamodel.IDatabaseObserver;
-import com.iup.tp.twitup.datamodel.Twit;
-import com.iup.tp.twitup.datamodel.User;
-import com.iup.tp.twitup.events.file.ConnectionActionListener;
+import com.iup.tp.twitup.datamodel.Session;
+import com.iup.tp.twitup.ihm.util.ButtonPanelView;
 import com.iup.tp.twitup.observer.MainViewObservable;
 import com.iup.tp.twitup.observer.MainViewObserver;
 
@@ -46,15 +42,23 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 	protected  Set<MainViewObserver> vObservers;
 	
 	protected JButton boutonMireConnection;
-	public ConnectionActionListener connectionAction;
 	public Session session;
 
 	protected JPanel content;
+	protected JPanel toolbar = new JPanel();
+	protected ButtonPanelView buttonPanel;
 
 	public TwitupMainView()  {
 		super("ma nouvelle application ");
 		this.vObservers= new HashSet<MainViewObserver>();
-		this.connectionAction = new ConnectionActionListener(vObservers);
+		
+		WindowListener wL = new WindowAdapter() {
+			public void windowClosing(WindowEvent e ) {
+				System.exit(0);
+			}
+		};
+		
+		addWindowListener(wL);
 	}
 	
 	// INIT DU DOSSIER DE BASE
@@ -72,17 +76,46 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		return null;
 	}
 
+	/**
+	 * 
+	 */
 	public void init() {
-		WindowListener wL = new WindowAdapter() {
-			public void windowClosing(WindowEvent e ) {
-				System.exit(0);
-			}
-		};
 		
-		addWindowListener(wL);
+
+		
+		
+		
+		// HERE MENU BAR
+		this.defineMenuItems();
+		
+		// HERE BUTTON PANEL
+		this.buttonPanel = new ButtonPanelView(this.vObservers);
+		this.toolbar.add(this.buttonPanel);
+		
+		this.setPreferredSize(new Dimension(800, 800));
+		//setSize(500, 500);
+		
+		// HERE CONTENT PANEL
+		content = new JPanel(new GridBagLayout());
+		content.setBorder(new LineBorder(Color.red));
+		JPanel cont = new JPanel(new GridBagLayout());
+		
+		cont.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		
+		this.setContentPane(cont);
+		setVisible(true);
+	}
+	
+	
+	
+	
+	/***
+	 * 
+	 */
+	public void defineMenuItems() {
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);
-
 		JMenu menu = new JMenu("Application");
 		JMenuItem JMenuItemQuitter = new JMenuItem( new AbstractAction("Quitter") {
 			@Override
@@ -108,52 +141,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		});
 		menu2.add(JMenuItem);
 		menuBar.add(menu2);
-		JButton boutonMireCreationCompte = new JButton("[Menu] Creer son compte");
-		boutonMireCreationCompte.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for( MainViewObserver ob: vObservers) {
-					ob.notifyCreateAccountPage();
-				}
-			}
-		});
-		
-
-		JPanel toolbar = new JPanel(new GridBagLayout());
-		
-		toolbar.add(boutonMireCreationCompte, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		this.boutonMireConnection = new JButton("[Menu] Se connecter");
-		this.boutonMireConnection.addActionListener(connectionAction);
-		
-		toolbar.add(boutonMireConnection, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		JButton boutonCreationTwit = new JButton("[Menu] Création d'un twit");
-		boutonCreationTwit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (MainViewObserver ob : vObservers) {
-					ob.notifyCreationTwitPage();
-				}
-			}
-		});
-		toolbar.add(boutonCreationTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		setPreferredSize(new Dimension(600, 600));
-		
-		
-		content = new JPanel(new GridBagLayout());
-		content.setBorder(new LineBorder(Color.red));
-		JPanel cont = new JPanel(new GridBagLayout());
-		
-		cont.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		
-		this.setContentPane(cont);		
-		setVisible(true);
 	}
-	
-	
-	
 	
 	
 	
@@ -164,9 +152,12 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 			public void run() {
 				// Custom de l'affichage
 				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+				System.out.println("tousse" + TwitupMainView.this.getWidth() );
 				TwitupMainView.this.setLocation((screenSize.width - TwitupMainView.this.getWidth()) / 6, (screenSize.height - TwitupMainView.this.getHeight()) / 4);
 				// Affichage
+				TwitupMainView.this.pack();
 				TwitupMainView.this.setVisible(true);
+
 			}
 		});
 	}
@@ -178,14 +169,6 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		this.revalidate();
 		this.repaint();
 	}
-	
-	
-	
-	/*public void printAccountButton() {
-		// TODO Auto-generated method stub
-		JButton button
-		
-	}*/
 
 	@Override
 	public void addObserver(MainViewObserver observer) {
@@ -195,6 +178,24 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 	@Override
 	public void removeObserver(MainViewObserver observer) {
 		this.vObservers.remove(observer);
+	}
+
+	public void printAccountButton() {
+		// TODO Auto-generated method stub
+		this.buttonPanel.showHideButtons();
+		this.revalidate();
+		this.repaint();
+		
+	}
+
+	public void hideAccountButton() {
+		System.out.println("deconnection");
+		this.remove(buttonPanel);
+		this.toolbar.removeAll();
+		this.buttonPanel =new ButtonPanelView(vObservers);
+		this.toolbar.add(this.buttonPanel);
+		this.revalidate();
+		this.repaint();
 	}
 
 	

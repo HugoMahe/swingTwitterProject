@@ -17,9 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import com.iup.tp.twitup.core.EntityManager;
-import com.iup.tp.twitup.datamodel.IDatabase;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.datamodel.User;
+import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 
 public class TwitupMock {
 
@@ -31,7 +31,7 @@ public class TwitupMock {
 	/**
 	 * Base de donénes de l'application.
 	 */
-	protected IDatabase mDatabase;
+	protected IDatabaseObservable mDatabase;
 
 	/**
 	 * Gestionnaire de bdd et de fichier.
@@ -44,7 +44,7 @@ public class TwitupMock {
 	 * @param database
 	 *            , Base de données de l'application.
 	 */
-	public TwitupMock(IDatabase database, EntityManager entityManager) {
+	public TwitupMock(IDatabaseObservable database, EntityManager entityManager) {
 		this.mDatabase = database;
 		this.mEntityManager = entityManager;
 	}

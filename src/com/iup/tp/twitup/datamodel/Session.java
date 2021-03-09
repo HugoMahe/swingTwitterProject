@@ -1,11 +1,10 @@
-package com.iup.tp.twitup.common;
+package com.iup.tp.twitup.datamodel;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.iup.tp.twitup.datamodel.User;
-import com.iup.tp.twitup.observer.SessionObservable;
-import com.iup.tp.twitup.observer.SessionObserver;
+import com.iup.tp.twitup.observer.session.SessionObservable;
+import com.iup.tp.twitup.observer.session.SessionObserver;
 
 public class Session implements SessionObservable {
 

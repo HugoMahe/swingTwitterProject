@@ -1,13 +1,16 @@
-package com.iup.tp.twitup.datamodel;
+package com.iup.tp.twitup.observer.database;
 
 import java.util.Set;
+
+import com.iup.tp.twitup.datamodel.Twit;
+import com.iup.tp.twitup.datamodel.User;
 
 /**
  * Interface de la base de données de l'application.
  * 
  * @author S.Lucas
  */
-public interface IDatabase {
+public interface IDatabaseObservable {
 
 	/**
 	 * Ajoute un observateur sur les modifications de la base de données.
@@ -137,5 +140,12 @@ public interface IDatabase {
 	 * Retourne l'utilisateur inconnu du système.
 	 */
 	public User getUnknowUser();
+	
+	/**
+	 * 
+	 * @param tag
+	 * @return
+	 */
+	public User getUserBytag(String tag);
 
 }

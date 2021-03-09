@@ -1,4 +1,4 @@
-package com.iup.tp.twitup.observer;
+package com.iup.tp.twitup.observer.twit;
 
 public interface TwitObservable {
 

@@ -5,13 +5,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.iup.tp.twitup.common.Constants;
+import com.iup.tp.twitup.observer.database.IDatabaseObservable;
+import com.iup.tp.twitup.observer.database.IDatabaseObserver;
 
 /**
  * Classe représentant les donénes chargées dans l'application.
  * 
  * @author S.Lucas
  */
-public class Database implements IDatabase {
+public class Database implements IDatabaseObservable {
 	/**
 	 * Liste des utilisateurs enregistrés.
 	 */
@@ -322,5 +324,16 @@ public class Database implements IDatabase {
 	 */
 	protected Set<IDatabaseObserver> getObservers() {
 		return new HashSet<IDatabaseObserver>(this.mObservers);
+	}
+	
+	
+	@Override
+	public User getUserBytag(String tag) {
+		for (User user: this.mUsers) {
+			if (user.getUserTag().equals(tag)) {
+				return user;
+			}
+		}
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.iup.tp.twitup.observer;
 
+
 public interface MainViewObserver {
 
 	
@@ -12,4 +13,11 @@ public interface MainViewObserver {
 	void notifyPrintAllAccountPage();
 	
 	void notifyDeconnection();
+	
+	void notifyFilTwitPage();
+	
+	void notifyProfilPage();
+	
+	
+
 }

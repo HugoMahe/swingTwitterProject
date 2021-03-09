@@ -1,4 +1,4 @@
-package com.iup.tp.twitup.observer;
+package com.iup.tp.twitup.observer.session;
 
 public interface SessionObservable {
 	

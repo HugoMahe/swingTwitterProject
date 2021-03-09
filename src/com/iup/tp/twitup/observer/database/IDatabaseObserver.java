@@ -1,4 +1,7 @@
-package com.iup.tp.twitup.datamodel;
+package com.iup.tp.twitup.observer.database;
+
+import com.iup.tp.twitup.datamodel.Twit;
+import com.iup.tp.twitup.datamodel.User;
 
 /**
  * Interface des observateurs des modifications de la base de données.
