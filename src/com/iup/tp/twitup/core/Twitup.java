@@ -16,6 +16,7 @@ import com.iup.tp.twitup.ihm.account.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitFilView;
+import com.iup.tp.twitup.ihm.util.NotificationView;
 import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 import com.iup.tp.twitup.observer.session.SessionObserver;
@@ -92,6 +93,8 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		
 		
 		this.mMainView.showGUI();
+		
+		this.mMainView.showNotification(new NotificationView());
 	}
 
 	/**

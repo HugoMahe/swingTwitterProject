@@ -25,9 +25,12 @@ public class TwitController implements TwitObserver {
 	@Override
 	public void notifyCreateTwit(String text) {
 		System.out.println("creation d'un twit reçu sur le controller" + text);
-		Twit twit = new Twit(this.session.getUser(), text);
-		this.eM.sendTwit(twit);
-		System.out.println("CONTROLLER : Twit envoyé" );
+		if(text.length()<=250) {
+			Twit twit = new Twit(this.session.getUser(), text);
+			this.eM.sendTwit(twit);
+			System.out.println("CONTROLLER : Twit envoyé" );
+		}
+		System.out.println("erreur tweet trop long");
 	}
 	
 	

@@ -46,6 +46,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 
 	protected JPanel content;
 	protected JPanel toolbar = new JPanel();
+	protected JPanel notification = new JPanel();
 	protected ButtonPanelView buttonPanel;
 
 	public TwitupMainView()  {
@@ -101,7 +102,8 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		JPanel cont = new JPanel(new GridBagLayout());
 		
 		cont.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		cont.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		
 		this.setContentPane(cont);
 		setVisible(true);
@@ -167,6 +169,16 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		content.add(toShow, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void showNotification(JPanel notif) {
+		System.out.println("test notification");
+		this.notification.removeAll();
+		this.notification.add(notif);
+		this.notification.setBorder(new LineBorder(Color.green));
+		this.revalidate();
+		this.repaint();
+		this.pack();
 	}
 
 	@Override
