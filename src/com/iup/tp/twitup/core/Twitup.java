@@ -265,9 +265,17 @@ public class Twitup implements MainViewObserver, SessionObserver {
 
 	@Override
 	public void notifyPrintAllAccountPage() {
-		System.out.println("creation de la page d'affiche des comptes");
+		System.out.println("lancement de l'affichage de la liste des utilisateurs");
 		
+		ListeUser listeUsers = new ListeUser(this.mDatabase.getUsers());
+		this.userListeController = new UserListeController(this.mDatabase);
+		this.userItemController = new UserItemController(this.session, this.mEntityManager);
+		this.userListeController.setUsers(listeUsers);
 		
+		UserListeView ufv = new UserListeView(listeUsers, this.userItemController, this.session);
+		ufv.addObserver(this.userListeController);
+		
+		this.mMainView.showView(ufv);
 	}
 
 	@Override
