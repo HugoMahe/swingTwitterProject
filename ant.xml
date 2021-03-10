@@ -1,0 +1,35 @@
+<project name="testProjetTwit" default="all" basedir=".">
+	<!-- DEFINITION DES FICHIERS PROPERTIES ET RESSOURCES -->
+	<property name="projet.ressources" value="./src/resources"/>
+	<property name="projet.output" value="F:/build" />
+	<property name="projet.output.ressources" value="${projet.output}/resources" />
+	
+
+	<!-- target principale --> 
+	<target name="all" depends="copy, packaging">
+		<echo message="start treating dependencies" />
+	</target>
+			
+			
+
+	<!-- Copies des fichier -->
+	<target name="copy">
+		<mkdir dir="${projet.output.ressources}"/>
+		<echo message="copies des fichiers de ressources  ${projet.output}/resources   ---- ${projet.ressources}"/>
+		<copy todir="${projet.output.ressources}">
+			<fileset dir="${projet.ressources}">
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- Compilation du jar -->
+	<target name="packaging">
+	<echo message="demarrage du traitement de compilation dans ${projet.output}/sortie.jar"/>
+		<jar jarfile="${projet.output}/sortie.jar" basedir="bin" >
+			<manifest>
+				<attribute name="Main-Class" value="com.iup.tp.twitup.TwitupLauncher"/>
+			</manifest>
+		</jar>
+	</target>
+</project>

@@ -45,10 +45,10 @@ public class TwitController implements TwitObserver {
 		if (tag.isEmpty()) {
 			twits.setTwits(database.getTwits());
 		}
-		else if (tag.substring(0,0).equals("#")) {
+		else if (tag.substring(0,1).equals("#")) {
 			twits.setTwits(database.getTwitsWithTag(tag.substring(1)));
 		}
-		else if (tag.substring(0,0).equals("@")) {
+		else if (tag.substring(0,1).equals("@")) {
 			twits.setTwits(database.getTwitsWithUserTag(tag.substring(1)));
 			User user = database.getUserBytag(tag.substring(1));
 			twits.addTwits(database.getUserTwits(user));

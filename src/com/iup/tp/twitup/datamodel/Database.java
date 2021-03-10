@@ -298,9 +298,9 @@ public class Database implements IDatabaseObservable {
 		this.mObservers.add(observer);
 
 		// Notification pour le nouvel observateur
-		for (Twit twit : this.getTwits()) {
+		/*for (Twit twit : this.getTwits()) {
 			observer.notifyTwitAdded(twit);
-		}
+		}*/
 
 		// Notification pour le nouvel observateur
 		for (User user : this.getUsers()) {

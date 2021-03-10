@@ -4,12 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.iup.tp.twitup.observer.user.UserObservable;
+import com.iup.tp.twitup.observer.user.UserObserver;
+
 /**
  * Classe du modèle représentant un utilisateur.
  * 
  * @author S.Lucas
  */
-public class User {
+public class User implements UserObservable {
 	
 	public static int userID;
 	/**
@@ -42,6 +45,8 @@ public class User {
 	 * Chemin d'accès à l'image de l'avatar de l'utilisateur.
 	 */
 	protected String mAvatarPath;
+	
+	protected Set<UserObserver> observers;
 
 	/**
 	 * Constructeur.
@@ -64,6 +69,7 @@ public class User {
 		mName = name;
 		mFollows = follows;
 		mAvatarPath = avatarPath;
+		this.observers = new HashSet<>();
 	}
 
 	/**
@@ -128,6 +134,7 @@ public class User {
 	 */
 	public void removeFollowing(String tagToRemove) {
 		this.mFollows.remove(tagToRemove);
+		this.changementFollow();
 	}
 
 	/**
@@ -138,6 +145,7 @@ public class User {
 	 */
 	public void addFollowing(String tagToFollow) {
 		this.mFollows.add(tagToFollow);
+		this.changementFollow();
 	}
 
 	/**
@@ -212,5 +220,21 @@ public class User {
 		sb.append("}");
 
 		return sb.toString();
+	}
+
+	@Override
+	public void addObserver(UserObserver observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(UserObserver observer) {
+		this.removeObserver(observer);
+	}
+
+	private void changementFollow() {
+		for (UserObserver observer : this.observers) {
+			observer.notifyChangementFollow();
+		}
 	}
 }

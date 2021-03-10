@@ -54,17 +54,20 @@ public class ProfilPageView extends JPanel{
 				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 			File file = new File(session.getUser().getAvatarPath());
-			try {
-				BufferedImage a = ImageIO.read(file);
-				System.out.println("j'ai mon image");
-				JLabel picLabel = new JLabel(new ImageIcon(a));
-				this.add(picLabel,new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, 
-						GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0) );
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(file.exists()) {
+				try {
+					BufferedImage a = ImageIO.read(file);
+					System.out.println("j'ai mon image");
+					JLabel picLabel = new JLabel(new ImageIcon(a));
+					this.add(picLabel,new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, 
+							GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0) );
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
 		
 		
 	}

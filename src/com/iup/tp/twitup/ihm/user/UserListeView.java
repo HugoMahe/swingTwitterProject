@@ -20,16 +20,16 @@ import javax.swing.event.DocumentListener;
 import com.iup.tp.twitup.core.UserItemController;
 import com.iup.tp.twitup.datamodel.ListeUser;
 import com.iup.tp.twitup.datamodel.Session;
-import com.iup.tp.twitup.observer.user.UserObservable;
-import com.iup.tp.twitup.observer.user.UserObserver;
+import com.iup.tp.twitup.observer.user.UserListeViewObservable;
+import com.iup.tp.twitup.observer.user.UserListeViewObserver;
 
-public class UserListeView extends JPanel implements UserObservable {
+public class UserListeView extends JPanel implements UserListeViewObservable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6389747582046876345L;
 	
-	protected Set<UserObserver> observers;
+	protected Set<UserListeViewObserver> observers;
 	
 	protected UserListeItem filUser;
 	
@@ -74,7 +74,7 @@ public class UserListeView extends JPanel implements UserObservable {
 		this.add(titreLabel, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.CENTER, 
 				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		this.add(filUser, new GridBagConstraints(2, 1, 4, 3, 1, 1, GridBagConstraints.CENTER, 
-				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		
 		this.add(rechercheField, new GridBagConstraints(4, 0, 1, 1, 0.5, 0, GridBagConstraints.CENTER, 
 				GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
@@ -84,18 +84,18 @@ public class UserListeView extends JPanel implements UserObservable {
 
 
 	protected void filtrer() {
-		for (UserObserver observer : this.observers) {
+		for (UserListeViewObserver observer : this.observers) {
 			observer.notifyFiltreFil(this.rechercheField.getText());
 		}
 	}
 
 	@Override
-	public void addObserver(UserObserver observer) {
+	public void addObserver(UserListeViewObserver observer) {
 		this.observers.add(observer);
 	}
 
 	@Override
-	public void removeObserver(UserObserver observer) {
+	public void removeObserver(UserListeViewObserver observer) {
 		this.observers.remove(observer);
 	}
 }

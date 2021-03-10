@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.iup.tp.twitup.observer.user.ListeUserObservable;
-import com.iup.tp.twitup.observer.user.ListeUserObserver;
+import com.iup.tp.twitup.observer.user.UserListeItemObservable;
+import com.iup.tp.twitup.observer.user.UserListeItemObserver;
 
-public class ListeUser implements ListeUserObservable {
+public class ListeUser implements UserListeItemObservable {
 	protected List<User> users;
-	protected Set<ListeUserObserver> observers;
+	protected Set<UserListeItemObserver> observers;
 
 	public ListeUser(Set<User> users) {
 		super();
@@ -35,18 +35,18 @@ public class ListeUser implements ListeUserObservable {
 	}
 	
 	private void notifierMiseAJour() {
-		for (ListeUserObserver observer : this.observers) {
+		for (UserListeItemObserver observer : this.observers) {
 			observer.notifyMiseAJour(this.users);
 		}
 	}
 	
 	@Override
-	public void addObserver(ListeUserObserver observer) {
+	public void addObserver(UserListeItemObserver observer) {
 		this.observers.add(observer);
 	}
 
 	@Override
-	public void removeObserver(ListeUserObserver observer) {
+	public void removeObserver(UserListeItemObserver observer) {
 		this.observers.remove(observer);
 	}
 

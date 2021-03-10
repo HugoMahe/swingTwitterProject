@@ -52,10 +52,11 @@ public class TwitFilView extends JPanel implements TwitObservable {
 	    	}
 	    });
 		
+		
 		this.add(titreLabel, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.CENTER, 
 				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		this.add(filTwit, new GridBagConstraints(2, 1, 4, 3, 1, 1, GridBagConstraints.CENTER, 
-				GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		
 		this.add(rechercheField, new GridBagConstraints(4, 0, 1, 1, 0.5, 0, GridBagConstraints.CENTER, 
 				GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));

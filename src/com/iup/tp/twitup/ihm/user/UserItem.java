@@ -18,8 +18,9 @@ import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.observer.user.UserItemObservable;
 import com.iup.tp.twitup.observer.user.UserItemObserver;
+import com.iup.tp.twitup.observer.user.UserObserver;
 
-public class UserItem extends JPanel implements UserItemObservable {
+public class UserItem extends JPanel implements UserItemObservable, UserObserver {
 	/**
 	 * 
 	 */
@@ -99,12 +100,11 @@ public class UserItem extends JPanel implements UserItemObservable {
 		this.observers.remove(observer);
 	}
 
-	public void updateFollow() {
-		System.out.println("je change le boutton");
+	@Override
+	public void notifyChangementFollow() {
 		if (!this.session.getUser().equals(this.user) ) {
 			if (this.session.getUser().isFollowing(this.user)) {
 				this.gestionAbonnement.setText("Se desabonner");
-				
 			}
 			else {
 				this.gestionAbonnement.setText("S'abonner");

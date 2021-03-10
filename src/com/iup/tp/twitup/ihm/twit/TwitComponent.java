@@ -1,6 +1,7 @@
 package com.iup.tp.twitup.ihm.twit;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

@@ -1,6 +1,5 @@
 package com.iup.tp.twitup.ihm.twit;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,17 +13,24 @@ import javax.swing.JScrollPane;
 import com.iup.tp.twitup.datamodel.Twit;
 import com.iup.tp.twitup.observer.twit.ListeTwitObserver;
 
-public class TwitFilComponent extends JScrollPane implements ListeTwitObserver {
-	protected Map<Twit, TwitComponent> twits;
+public class TwitFilComponent extends JPanel implements ListeTwitObserver {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5787573847540101532L;
+	protected Map<Twit, TwitComponent> twits;
+	protected JScrollPane scrollPane;
 
 	public TwitFilComponent(List<Twit> twits) {
 		this.twits = new HashMap<>();
+		this.scrollPane = new JScrollPane();
+		
+		this.setLayout(new GridBagLayout());
 		
 		this.mettreAJourFil(twits);
+		
+		this.add(this.scrollPane, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, 
+				GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 	}
 
 	@Override
@@ -46,6 +52,6 @@ public class TwitFilComponent extends JScrollPane implements ListeTwitObserver {
 					GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		}
 		
-		this.setViewportView(fil);
+		this.scrollPane.setViewportView(fil);
 	}
 }

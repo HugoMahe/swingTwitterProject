@@ -111,6 +111,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		
 		// AJOUT DE L'ECOUTE DE LA MAIN VIEW SUR LE CONTROLLER DE NOTIFICATIONS
 		this.notificationController.addObserver(this.mMainView);
+
 		
 		// AJOUT DU CONTROLLER QUI ECOUTE LA BASE DE DONNES DE TWIT
 		this.twitListenerController = new TwitListenerController(this.session, this.notificationController);
@@ -226,6 +227,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		toShow.addObserver(this.accountController);
 		
 		this.mMainView.showView(toShow);
+		
 	}
 
 	@Override
@@ -265,6 +267,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		this.mMainView.session=this.session;
 		this.mMainView.hideAccountButton();
 		this.mMainView.repaint();
+		this.notifyConnectionPage();
 	}
 
 	@Override

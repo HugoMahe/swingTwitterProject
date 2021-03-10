@@ -3,9 +3,9 @@ package com.iup.tp.twitup.core;
 
 import com.iup.tp.twitup.datamodel.ListeUser;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
-import com.iup.tp.twitup.observer.user.UserObserver;
+import com.iup.tp.twitup.observer.user.UserListeViewObserver;
 
-public class UserListeController implements UserObserver {
+public class UserListeController implements UserListeViewObserver {
 	private IDatabaseObservable database;
 	private ListeUser listeUser;
 
