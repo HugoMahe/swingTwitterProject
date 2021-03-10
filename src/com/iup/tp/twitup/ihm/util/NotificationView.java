@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.iup.tp.twitup.observer.MainViewObserver;
-import com.iup.tp.twitup.observer.NotificationObservable;
-import com.iup.tp.twitup.observer.NotificationObserver;
+import com.iup.tp.twitup.observer.notification.NotificationObservable;
+import com.iup.tp.twitup.observer.notification.NotificationObserver;
 
 public class NotificationView extends JPanel implements NotificationObservable{
 

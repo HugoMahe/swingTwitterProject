@@ -1,6 +1,7 @@
 package com.iup.tp.twitup.core;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.iup.tp.twitup.datamodel.Session;
@@ -8,13 +9,18 @@ import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
 import com.iup.tp.twitup.observer.account.AccountObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
+import com.iup.tp.twitup.observer.notification.NotificationMessageSendObservable;
+import com.iup.tp.twitup.observer.notification.NotificationMessageSendObserver;
 import com.iup.tp.twitup.observer.session.SessionObserver;
 
-public class AccountController implements AccountObserver{
+public class AccountController implements AccountObserver, NotificationMessageSendObservable{
 	TwitupAccountCreationView view;
 	private IDatabaseObservable database;
 	private EntityManager eM;
 	protected Session session; 
+	
+	protected  Set<NotificationMessageSendObserver> notificationMessageObservers = new HashSet<NotificationMessageSendObserver>();
+
 	
 	public AccountController(IDatabaseObservable database, EntityManager Em, Session session) {
 		this.database= database;
@@ -93,6 +99,21 @@ public class AccountController implements AccountObserver{
 		}
 		else {
 			System.out.println("Utilisateur non trouvé");
+			for(NotificationMessageSendObserver no : this.notificationMessageObservers) {
+				no.notifyNotificationMessageSend("Utilisateur non trouvé");
+			}
 		}
+	}
+
+	@Override
+	public void addObserver(NotificationMessageSendObserver observer) {
+		this.notificationMessageObservers.add(observer);
+		
+	}
+
+	@Override
+	public void removeObserver(NotificationMessageSendObserver observer) {
+		this.notificationMessageObservers.remove(observer);
+		
 	}
 }

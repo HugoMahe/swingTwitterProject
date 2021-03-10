@@ -31,7 +31,7 @@ import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.ihm.util.ButtonPanelView;
 import com.iup.tp.twitup.observer.MainViewObservable;
 import com.iup.tp.twitup.observer.MainViewObserver;
-import com.iup.tp.twitup.observer.NotificationObserver;
+import com.iup.tp.twitup.observer.notification.NotificationObserver;
 
 public class TwitupMainView  extends JFrame implements MainViewObservable, NotificationObserver{
 
@@ -48,6 +48,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 	protected JPanel content;
 	protected JPanel toolbar = new JPanel();
 	protected JPanel notification = new JPanel();
+	protected JPanel container = new JPanel(new GridBagLayout());
 	protected ButtonPanelView buttonPanel;
 
 	public TwitupMainView()  {
@@ -97,13 +98,11 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 		// HERE CONTENT PANEL
 		content = new JPanel(new GridBagLayout());
 		content.setBorder(new LineBorder(Color.red));
-		JPanel cont = new JPanel(new GridBagLayout());
 		
-		cont.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		cont.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		cont.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.container.add(toolbar, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		this.container.add(content, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		
-		this.setContentPane(cont);
+		this.setContentPane(container);
 		setVisible(true);
 	}
 	
@@ -170,9 +169,11 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 	
 	public void showNotification(JPanel notif) {
 		System.out.println("test notification");
+		//this.container.removeAll();
 		this.notification.removeAll();
 		this.notification.add(notif);
 		this.notification.setBorder(new LineBorder(Color.green));
+		container.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.revalidate();
 		this.repaint();
 		this.pack();

@@ -19,6 +19,7 @@ import com.iup.tp.twitup.ihm.twit.TwitFilView;
 import com.iup.tp.twitup.ihm.util.NotificationView;
 import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
+import com.iup.tp.twitup.observer.notification.NotificationMessageSendObserver;
 import com.iup.tp.twitup.observer.session.SessionObserver;
 
 /**
@@ -26,7 +27,7 @@ import com.iup.tp.twitup.observer.session.SessionObserver;
  * 
  * @author S.Lucas
  */
-public class Twitup implements MainViewObserver, SessionObserver {
+public class Twitup implements MainViewObserver, SessionObserver, NotificationMessageSendObserver {
 	/**
 	 * Base de donnÃ©es.
 	 */
@@ -94,9 +95,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		
 		this.mMainView.showGUI();
 		
-		NotificationView nv = new NotificationView("Test message");
-		nv.addObserver(mMainView);
-		this.mMainView.showNotification(nv);
 	}
 
 	/**
@@ -218,6 +216,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		}
 		TwitUpAccountLoginView toShow = new TwitUpAccountLoginView();
 		toShow.addObserver(this.accountController);
+		this.accountController.addObserver(this);
 		
 		this.mMainView.showView(toShow);
 	}
@@ -277,6 +276,14 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		ProfilPageView ppv = new ProfilPageView(this.session);
 		
 		this.mMainView.showView(ppv);
+	}
+
+	@Override
+	public void notifyNotificationMessageSend(String message) {
+		System.out.println("message re�u :" + message);
+		NotificationView nv = new NotificationView(message);
+		nv.addObserver(mMainView);
+		this.mMainView.showNotification(nv);
 	}
 	
 }
