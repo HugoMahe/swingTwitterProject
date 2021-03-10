@@ -209,11 +209,10 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 
 	@Override
 	public void notifyNotificationReceived(String message) {
-		// TODO Auto-generated method stub
-		System.out.println("notification reçue"  + message);
-		//this.container.removeAll();
 		this.notification.removeAll();
-		this.notification.add(new NotificationView(message));
+		NotificationView notifElement = new NotificationView(message);
+		notifElement.addObserver(this);
+		this.notification.add(notifElement);
 		this.notification.setBorder(new LineBorder(Color.green));
 		container.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.revalidate();

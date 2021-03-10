@@ -32,13 +32,13 @@ public class AccountController implements AccountObserver{
 	public void notifyCreateAccount(String tag, String mdp, String confirmation, String name, String avatar) {
 		String erreur = "";
 		if (tag == null) {
-			erreur += "Tag null\n";
+			erreur += "Tag null \n";
 		} 
 		else if (tag.isEmpty()) {
-			erreur += "Tag vide\n";
+			erreur += "Tag vide \n";
 		}
 		else if (this.database.getUserBytag(tag) != null) {
-			erreur += "Tag dÃ©jÃ  utilisÃ©\n";
+			erreur += "Tag déjà  utilisé\n";
 		}
 
 		if (mdp == null) {
@@ -70,6 +70,7 @@ public class AccountController implements AccountObserver{
 			this.eM.sendUser(newUser);
 		}else {
 			System.out.println("L'user n'a pas pu être ajouté en base :");
+			this.controllerNotification.envoyerNotification(erreur);
 			System.out.print(erreur);
 		}
 	}
@@ -92,6 +93,7 @@ public class AccountController implements AccountObserver{
 			}
 			else {
 				System.out.println("Mot de passe incorrect");
+				this.controllerNotification.envoyerNotification("Mot de passe incorrect");
 			}
 		}
 		else {

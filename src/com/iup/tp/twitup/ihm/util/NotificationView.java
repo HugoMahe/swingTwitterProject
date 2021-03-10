@@ -25,7 +25,7 @@ public class NotificationView extends JPanel implements NotificationObservable{
 	
 	public NotificationView(String message) {
 		// TODO Auto-generated constructor stub
-		setPreferredSize(new Dimension(100, 100));
+		setPreferredSize(new Dimension(400, 400));
 		JLabel tagLabel = new JLabel(message);
 		this.add(tagLabel);
 		

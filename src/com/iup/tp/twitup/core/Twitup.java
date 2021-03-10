@@ -206,7 +206,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		TwitupAccountCreationView toShow = new TwitupAccountCreationView();
 		// AJOUT DES OBSERVERS
 		toShow.addObserver(this.accountController);
-		
 		// DEMANDE A LA VUE D'AFFICHER LE CONTENU DE LA VIEW
 		this.mMainView.showView(toShow);
 	}
@@ -226,10 +225,9 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	@Override
 	public void notifyCreationTwitPage() {
 		System.out.println("lancement de la creation de la page de twit");
-		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase);
+		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase,this.notificationController);
 		TwitCreationView toShow = new TwitCreationView();
 		toShow.addObserver(twitController);
-		
 		this.mMainView.showView(toShow);
 	}
 	
@@ -238,7 +236,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		System.out.println("lancement de l'affichage du fil de twit");
 		
 		ListeTwit twits = new ListeTwit(this.mDatabase.getTwits());
-		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase);
+		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase,this.notificationController);
 		this.twitController.setTwits(twits);
 		
 		TwitFilView ftv = new TwitFilView(twits);

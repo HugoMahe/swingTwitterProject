@@ -1,6 +1,7 @@
 package com.iup.tp.twitup.core;
 
 
+import com.iup.tp.twitup.common.INotifier;
 import com.iup.tp.twitup.datamodel.ListeTwit;
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.Twit;
@@ -13,13 +14,15 @@ public class TwitController implements TwitObserver {
 	private Session session; 
 	private IDatabaseObservable database;
 	private ListeTwit twits;
+	protected INotifier controllerNotification;
 
 	
-	public TwitController(Session session, EntityManager eMParam, IDatabaseObservable databaseParam) {
+	public TwitController(Session session, EntityManager eMParam, IDatabaseObservable databaseParam, INotifier controllerNotification) {
 		// TODO Auto-generated constructor stub
 		this.session=session;
 		this.eM=eMParam;
 		this.database=databaseParam;
+		this.controllerNotification=controllerNotification;
 	}
 
 	@Override
@@ -31,6 +34,7 @@ public class TwitController implements TwitObserver {
 			System.out.println("CONTROLLER : Twit envoyé" );
 		}
 		System.out.println("erreur tweet trop long");
+		this.controllerNotification.envoyerNotification("Tweet trop long");
 	}
 	
 	

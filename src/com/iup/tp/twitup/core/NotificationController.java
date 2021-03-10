@@ -22,13 +22,11 @@ public class NotificationController implements INotifier, NotificationSendMessag
 
 	@Override
 	public void addObserver(NotificationSendMessageObserver observer) {
-		// TODO Auto-generated method stub
 		this.notifObservers.add(observer);
 	}
 
 	@Override
 	public void removeObserver(NotificationSendMessageObserver observer) {
-		// TODO Auto-generated method stub
 		this.notifObservers.remove(observer);
 	}
 
