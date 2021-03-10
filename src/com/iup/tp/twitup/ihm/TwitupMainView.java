@@ -31,8 +31,9 @@ import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.ihm.util.ButtonPanelView;
 import com.iup.tp.twitup.observer.MainViewObservable;
 import com.iup.tp.twitup.observer.MainViewObserver;
+import com.iup.tp.twitup.observer.NotificationObserver;
 
-public class TwitupMainView  extends JFrame implements MainViewObservable{
+public class TwitupMainView  extends JFrame implements MainViewObservable, NotificationObserver{
 
 	/**
 	 * 
@@ -81,9 +82,6 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 	 * 
 	 */
 	public void init() {
-		
-
-		
 		
 		
 		// HERE MENU BAR
@@ -135,7 +133,6 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		
 		JMenu menu2 = new JMenu("?");
 		JMenuItem JMenuItem = new JMenuItem( new AbstractAction("A propos de") {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Icon iconAPropos = new ImageIcon(getClass().getResource("/logoIUP_50.jpg"));
@@ -205,6 +202,15 @@ public class TwitupMainView  extends JFrame implements MainViewObservable{
 		this.toolbar.removeAll();
 		this.buttonPanel =new ButtonPanelView(vObservers);
 		this.toolbar.add(this.buttonPanel);
+		this.revalidate();
+		this.repaint();
+	}
+
+	@Override
+	public void notifyCloseNotification() {
+		System.out.println("fermeture de la notification");
+		this.notification.removeAll();
+		this.remove(notification);
 		this.revalidate();
 		this.repaint();
 	}
