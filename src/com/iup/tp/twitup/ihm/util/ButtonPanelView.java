@@ -44,7 +44,6 @@ public class ButtonPanelView extends JPanel{
 		
 		
 		
-		
 		this.boutonMireConnection = new JButton("Se connecter");		
 		this.boutonMireConnection.addActionListener(new ActionListener() {
 			
@@ -56,8 +55,16 @@ public class ButtonPanelView extends JPanel{
 				}
 			}
 		});
-		
 		this.add(boutonMireConnection, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		
+		this.setBorder(new LineBorder(Color.blue));
+	}
+
+	public void showHideButtons() {
+		// TODO Auto-generated method stub
+		System.out.println("Showing hide buttons");
+		
+		// AFFICHAGE DU FIL DE TWIT
 		JButton boutonFilTwit = new JButton("Fil des twits");
 		boutonFilTwit.addActionListener(new ActionListener() {
 			
@@ -69,15 +76,27 @@ public class ButtonPanelView extends JPanel{
 			}
 		});
 		this.add(boutonFilTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
-		this.setBorder(new LineBorder(Color.blue));
-	}
+		
+		// AFFICHAGE DE LA LISTE DES UTILISATEURS
+		JButton boutonListeUtilisateur = new JButton("Liste utilisateurs");
+		boutonListeUtilisateur.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (MainViewObserver ob : observers) {
+					ob.notifyPrintAllAccountPage();
+				}
+			}
+		});
+		this.add(boutonListeUtilisateur, new GridBagConstraints(3, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+	
 
 	public void showHideButtons() {
 		// TODO Auto-generated method stub
 		System.out.println("Showing hide buttons");
 		
 		////// BOUTON DE CREATION D'UN TWIT
-		JButton boutonCreationTwit = new JButton("Création d'un twit");
+		JButton boutonCreationTwit = new JButton("CrÃ©ation d'un twit");
 		boutonCreationTwit.addActionListener(new ActionListener() {
 			
 			@Override
@@ -104,7 +123,7 @@ public class ButtonPanelView extends JPanel{
 		
 		
 		
-		JButton boutonDeconnection = new JButton("Se déconnecter");
+		JButton boutonDeconnection = new JButton("Se dÃ©connecter");
 		boutonDeconnection.addActionListener(new ActionListener() {
 			
 			@Override
