@@ -1,31 +1,28 @@
 package com.iup.tp.twitup.core;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
+import com.iup.tp.twitup.common.INotifier;
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
 import com.iup.tp.twitup.observer.account.AccountObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
-import com.iup.tp.twitup.observer.notification.NotificationMessageSendObservable;
-import com.iup.tp.twitup.observer.notification.NotificationMessageSendObserver;
 import com.iup.tp.twitup.observer.session.SessionObserver;
 
-public class AccountController implements AccountObserver, NotificationMessageSendObservable{
+public class AccountController implements AccountObserver{
 	TwitupAccountCreationView view;
 	private IDatabaseObservable database;
 	private EntityManager eM;
-	protected Session session; 
+	protected Session session;
+	protected INotifier controllerNotification;
 	
-	protected  Set<NotificationMessageSendObserver> notificationMessageObservers = new HashSet<NotificationMessageSendObserver>();
-
-	
-	public AccountController(IDatabaseObservable database, EntityManager Em, Session session) {
+	public AccountController(IDatabaseObservable database, EntityManager Em, Session session, INotifier notificationParam) {
 		this.database= database;
 		this.eM=Em;
 		this.session=session;
+		this.controllerNotification=notificationParam;
 	}
 
 	/**
@@ -99,21 +96,7 @@ public class AccountController implements AccountObserver, NotificationMessageSe
 		}
 		else {
 			System.out.println("Utilisateur non trouvé");
-			for(NotificationMessageSendObserver no : this.notificationMessageObservers) {
-				no.notifyNotificationMessageSend("Utilisateur non trouvé");
-			}
+			this.controllerNotification.envoyerNotification("Utilisation non trouvé");
 		}
-	}
-
-	@Override
-	public void addObserver(NotificationMessageSendObserver observer) {
-		this.notificationMessageObservers.add(observer);
-		
-	}
-
-	@Override
-	public void removeObserver(NotificationMessageSendObserver observer) {
-		this.notificationMessageObservers.remove(observer);
-		
 	}
 }

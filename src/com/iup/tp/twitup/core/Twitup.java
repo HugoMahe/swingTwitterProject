@@ -16,10 +16,8 @@ import com.iup.tp.twitup.ihm.account.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitFilView;
-import com.iup.tp.twitup.ihm.util.NotificationView;
 import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
-import com.iup.tp.twitup.observer.notification.NotificationMessageSendObserver;
 import com.iup.tp.twitup.observer.session.SessionObserver;
 
 /**
@@ -27,7 +25,7 @@ import com.iup.tp.twitup.observer.session.SessionObserver;
  * 
  * @author S.Lucas
  */
-public class Twitup implements MainViewObserver, SessionObserver, NotificationMessageSendObserver {
+public class Twitup implements MainViewObserver, SessionObserver {
 	/**
 	 * Base de donnÃ©es.
 	 */
@@ -69,6 +67,8 @@ public class Twitup implements MainViewObserver, SessionObserver, NotificationMe
 	protected TwitController twitController;
 	protected Session session = null;
 	protected File dossier = null;
+	protected NotificationController notificationController= new NotificationController();
+	
 
 	/**
 	 * Constructeur.
@@ -94,6 +94,9 @@ public class Twitup implements MainViewObserver, SessionObserver, NotificationMe
 		
 		
 		this.mMainView.showGUI();
+		
+		// AJOUT DE L'ECOUTE DE LA MAIN VIEW SUR LE CONTROLLER DE NOTIFICATIONS
+		this.notificationController.addObserver(this.mMainView);
 		
 	}
 
@@ -198,7 +201,7 @@ public class Twitup implements MainViewObserver, SessionObserver, NotificationMe
 	public void notifyCreateAccountPage() {
 		System.out.println("ouverture du menu de creation de compte");
 		// INSTANCIATION DU CONTROLLER
-	 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session);
+	 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session, notificationController);
 	 	// INSTANCIATION DE LA VUE
 		TwitupAccountCreationView toShow = new TwitupAccountCreationView();
 		// AJOUT DES OBSERVERS
@@ -212,11 +215,10 @@ public class Twitup implements MainViewObserver, SessionObserver, NotificationMe
 	public void notifyConnectionPage() {
 		System.out.println("ouverture du menu de connection de compte");
 		if(this.accountController==null) {
-		 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session);
+		 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session, notificationController);
 		}
 		TwitUpAccountLoginView toShow = new TwitUpAccountLoginView();
 		toShow.addObserver(this.accountController);
-		this.accountController.addObserver(this);
 		
 		this.mMainView.showView(toShow);
 	}
@@ -273,17 +275,9 @@ public class Twitup implements MainViewObserver, SessionObserver, NotificationMe
 	@Override
 	public void notifyProfilPage() {
 		System.out.println("affichage du profil");
-		ProfilPageView ppv = new ProfilPageView(this.session);
-		
+		ProfilPageView ppv = new ProfilPageView(this.session);	
 		this.mMainView.showView(ppv);
 	}
 
-	@Override
-	public void notifyNotificationMessageSend(String message) {
-		System.out.println("message re�u :" + message);
-		NotificationView nv = new NotificationView(message);
-		nv.addObserver(mMainView);
-		this.mMainView.showNotification(nv);
-	}
 	
 }

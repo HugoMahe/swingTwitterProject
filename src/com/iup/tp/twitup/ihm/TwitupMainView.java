@@ -29,11 +29,13 @@ import javax.swing.border.LineBorder;
 
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.ihm.util.ButtonPanelView;
+import com.iup.tp.twitup.ihm.util.NotificationView;
 import com.iup.tp.twitup.observer.MainViewObservable;
 import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.notification.NotificationObserver;
+import com.iup.tp.twitup.observer.notification.NotificationSendMessageObserver;
 
-public class TwitupMainView  extends JFrame implements MainViewObservable, NotificationObserver{
+public class TwitupMainView  extends JFrame implements MainViewObservable, NotificationObserver, NotificationSendMessageObserver{
 
 	/**
 	 * 
@@ -166,18 +168,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 		this.revalidate();
 		this.repaint();
 	}
-	
-	public void showNotification(JPanel notif) {
-		System.out.println("test notification");
-		//this.container.removeAll();
-		this.notification.removeAll();
-		this.notification.add(notif);
-		this.notification.setBorder(new LineBorder(Color.green));
-		container.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		this.revalidate();
-		this.repaint();
-		this.pack();
-	}
+
 
 	@Override
 	public void addObserver(MainViewObserver observer) {
@@ -214,6 +205,21 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 		this.remove(notification);
 		this.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void notifyNotificationReceived(String message) {
+		// TODO Auto-generated method stub
+		System.out.println("notification reçue"  + message);
+		//this.container.removeAll();
+		this.notification.removeAll();
+		this.notification.add(new NotificationView(message));
+		this.notification.setBorder(new LineBorder(Color.green));
+		container.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		this.revalidate();
+		this.repaint();
+		this.pack();
+		
 	}
 
 	
