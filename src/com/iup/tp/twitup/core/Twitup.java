@@ -129,6 +129,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	
 	protected void initDirectory() {
 		//System.out.println(System.getProperty("sun.arch.data.model"));
+		System.out.println(PropertiesManager.loadProperties(getClass().getResource("/configuration.properties").getFile()));
 		Properties prop =  PropertiesManager.loadProperties(getClass().getResource("/configuration.properties").getFile());
 		if(prop.getProperty("EXCHANGE_DIRECTORY").length()==0) {
 			dossier = this.mMainView.askDirectory();
@@ -245,7 +246,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	public void notifyModificationSession(User user) {
 		if(user!=null) {
 			this.session.setUser(user);
-			System.out.println("Il est connecté");
+			System.out.println("Il est connectï¿½");
 			this.mMainView.printAccountButton();
 		}
 		this.mMainView.repaint();
