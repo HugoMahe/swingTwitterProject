@@ -147,5 +147,7 @@ public interface IDatabaseObservable {
 	 * @return
 	 */
 	public User getUserBytag(String tag);
+	
+	public Set<User> getUsersByTag(String tag);
 
 }

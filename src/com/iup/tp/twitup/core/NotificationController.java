@@ -13,10 +13,10 @@ public class NotificationController implements INotifier, NotificationSendMessag
 
 	
 	@Override
-	public void envoyerNotification(String message) {
+	public void envoyerNotification(String message, Boolean error) {
 		// TODO Auto-generated method stub
 		for(NotificationSendMessageObserver notificationObserver : this.notifObservers) {
-			notificationObserver.notifyNotificationReceived(message);
+			notificationObserver.notifyNotificationReceived(message, error);
 		}
 	}
 

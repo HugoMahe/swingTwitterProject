@@ -1,5 +1,6 @@
 package com.iup.tp.twitup.ihm.util;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.notification.NotificationObservable;
 import com.iup.tp.twitup.observer.notification.NotificationObserver;
 
@@ -23,9 +23,14 @@ public class NotificationView extends JPanel implements NotificationObservable{
 	protected  Set<NotificationObserver> nObservers = new HashSet<NotificationObserver>();
 
 	
-	public NotificationView(String message) {
+	public NotificationView(String message, Boolean Error) {
 		// TODO Auto-generated constructor stub
-		setPreferredSize(new Dimension(400, 400));
+		setPreferredSize(new Dimension(200, 100));
+		if(Error) {
+			this.setBackground(Color.red);
+		}else {
+			this.setBackground(Color.green);
+		}
 		JLabel tagLabel = new JLabel(message);
 		this.add(tagLabel);
 		

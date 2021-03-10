@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.iup.tp.twitup.datamodel.ListeTwit;
-import com.iup.tp.twitup.datamodel.Twit;
-import com.iup.tp.twitup.observer.twit.ListeTwitObserver;
 import com.iup.tp.twitup.observer.twit.TwitObservable;
 import com.iup.tp.twitup.observer.twit.TwitObserver;
 

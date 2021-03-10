@@ -152,7 +152,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	}
 
 	/**
-	 * Indique si le fichier donnÃ© est valide pour servire de rÃ©pertoire
+	 * Indique si le fichier donnée est valide pour servire de répertoire
 	 * d'Ã©change
 	 * 
 	 * @param directory
@@ -165,7 +165,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	}
 
 	/**
-	 * Initialisation du mode bouchonÃ© de l'application
+	 * Initialisation du mode bouchonné de l'application
 	 */
 	protected void initMock() {
 		TwitupMock mock = new TwitupMock(this.mDatabase, this.mEntityManager);
@@ -181,7 +181,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	}
 
 	/**
-	 * Initialisation du rÃ©pertoire d'Ã©change.
+	 * Initialisation du répertoire d'Ã©change.
 	 * 
 	 * @param directoryPath
 	 */

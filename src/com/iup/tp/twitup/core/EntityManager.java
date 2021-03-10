@@ -19,7 +19,7 @@ import com.iup.tp.twitup.events.file.IWatchableDirectoryObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 
 /**
- * Classe de gestion de la mise � jour de la base de donn�es et de g�n�ration
+ * Classe de gestion de la mise  à jour de la base de données et de génération
  * des fichiers
  * 
  * @author S.Lucas
@@ -27,12 +27,12 @@ import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 public class EntityManager implements IWatchableDirectoryObserver {
 
 	/**
-	 * Base de donnée de l'application.
+	 * Base de donn�e de l'application.
 	 */
 	protected final IDatabaseObservable mDatabase;
 
 	/**
-	 * Chemin d'accès au répertoire d'échange.
+	 * Chemin d'acc�s au répertoire d'échange.
 	 */
 	protected String mDirectoryPath;
 
@@ -81,7 +81,7 @@ public class EntityManager implements IWatchableDirectoryObserver {
 	public void notifyNewFiles(Set<File> newFiles) {
 		//
 		// Récupération des fichiers utilisateurs en premier
-		// (n�cessaires pour g�rer les twits)
+		// (n�cessaires pour g�rer les twits)
 		Set<File> userFiles = this.getUserFiles(newFiles);
 
 		// Parcours de la liste des fichiers utilisateurs

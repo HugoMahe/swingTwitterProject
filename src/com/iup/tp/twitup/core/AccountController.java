@@ -68,9 +68,10 @@ public class AccountController implements AccountObserver{
 			User newUser = new User(UUID.randomUUID(), tag, mdp, name, new HashSet<String>(), avatar);
 			// Ajout de l'utilisateur Ã  la base
 			this.eM.sendUser(newUser);
+			this.controllerNotification.envoyerNotification("Compte ajouté", false);
 		}else {
 			System.out.println("L'user n'a pas pu être ajouté en base :");
-			this.controllerNotification.envoyerNotification(erreur);
+			this.controllerNotification.envoyerNotification(erreur,true);
 			System.out.print(erreur);
 		}
 	}
@@ -85,6 +86,7 @@ public class AccountController implements AccountObserver{
 			if (user.getUserPassword().equals(mdp)) {
 				System.out.println(tag + " trouvé");
 				System.out.println("création de la session");
+				this.controllerNotification.envoyerNotification("Connecté", false);
 				if(this.session!=null) {
 					for(SessionObserver so :  this.session.sObservers) {
 						so.notifyModificationSession(user);
@@ -93,12 +95,12 @@ public class AccountController implements AccountObserver{
 			}
 			else {
 				System.out.println("Mot de passe incorrect");
-				this.controllerNotification.envoyerNotification("Mot de passe incorrect");
+				this.controllerNotification.envoyerNotification("Mot de passe incorrect",true);
 			}
 		}
 		else {
 			System.out.println("Utilisateur non trouvé");
-			this.controllerNotification.envoyerNotification("Utilisation non trouvé");
+			this.controllerNotification.envoyerNotification("Utilisation non trouvé",true);
 		}
 	}
 }

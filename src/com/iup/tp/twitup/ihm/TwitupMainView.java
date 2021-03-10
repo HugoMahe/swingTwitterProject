@@ -94,8 +94,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 		this.buttonPanel = new ButtonPanelView(this.vObservers);
 		this.toolbar.add(this.buttonPanel);
 		
-		this.setPreferredSize(new Dimension(800, 800));
-		//setSize(500, 500);
+		this.setPreferredSize(new Dimension(1000, 1000));
 		
 		// HERE CONTENT PANEL
 		content = new JPanel(new GridBagLayout());
@@ -152,7 +151,7 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 			public void run() {
 				// Custom de l'affichage
 				Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				TwitupMainView.this.setLocation((screenSize.width - TwitupMainView.this.getWidth()) / 6, (screenSize.height - TwitupMainView.this.getHeight()) / 4);
+				TwitupMainView.this.setLocation((screenSize.width - TwitupMainView.this.getWidth()) / 6, (screenSize.height - TwitupMainView.this.getHeight()) / 6);
 				// Affichage
 				TwitupMainView.this.pack();
 				TwitupMainView.this.setVisible(true);
@@ -208,12 +207,11 @@ public class TwitupMainView  extends JFrame implements MainViewObservable, Notif
 	}
 
 	@Override
-	public void notifyNotificationReceived(String message) {
+	public void notifyNotificationReceived(String message, Boolean error) {
 		this.notification.removeAll();
-		NotificationView notifElement = new NotificationView(message);
+		NotificationView notifElement = new NotificationView(message, error);
 		notifElement.addObserver(this);
 		this.notification.add(notifElement);
-		this.notification.setBorder(new LineBorder(Color.green));
 		container.add(notification,new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.revalidate();
 		this.repaint();

@@ -66,7 +66,7 @@ public class TwitupAccountCreationView extends JPanel implements AccountObservab
 		this.setBackground(new Color(150,10,100,70));
 		this.setBorder(new LineBorder(Color.RED,4,true));
 
-		JLabel titreLabel = new JLabel("Création utilisateur");
+		JLabel titreLabel = new JLabel("Cr�ation utilisateur");
 		titreLabel.setFont(new Font("Arial",Font.BOLD,12));
 		
 		this.tagField = new JTextField();
@@ -133,7 +133,7 @@ public class TwitupAccountCreationView extends JPanel implements AccountObservab
 	
 	@SuppressWarnings("deprecation")
 	protected void tenterCreerUser() {
-		// Cr�ation d'un utilisateur
+		// Création d'un utilisateur
 		String tag = this.tagField.getText();
 		String mdp = this.mdpField.getText();
 		String confirmation = this.confirmationField.getText();
