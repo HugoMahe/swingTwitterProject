@@ -336,4 +336,15 @@ public class Database implements IDatabaseObservable {
 		}
 		return null;
 	}
+
+	@Override
+	public Set<User> getUsersByTag(String tag) {
+		Set<User> users = new HashSet<>();
+		for (User user: this.mUsers) {
+			if (user.getUserTag().contains(tag)) {
+				users.add(user);
+			}
+		}
+		return users;
+	}
 }
