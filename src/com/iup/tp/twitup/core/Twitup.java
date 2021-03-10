@@ -5,6 +5,7 @@ import java.util.Properties;
 import com.iup.tp.twitup.common.PropertiesManager;
 import com.iup.tp.twitup.datamodel.Database;
 import com.iup.tp.twitup.datamodel.ListeTwit;
+import com.iup.tp.twitup.datamodel.ListeUser;
 import com.iup.tp.twitup.datamodel.Session;
 import com.iup.tp.twitup.datamodel.User;
 import com.iup.tp.twitup.events.file.IWatchableDirectory;
@@ -16,6 +17,7 @@ import com.iup.tp.twitup.ihm.account.TwitUpAccountLoginView;
 import com.iup.tp.twitup.ihm.account.TwitupAccountCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitCreationView;
 import com.iup.tp.twitup.ihm.twit.TwitFilView;
+import com.iup.tp.twitup.ihm.user.UserListeView;
 import com.iup.tp.twitup.observer.MainViewObserver;
 import com.iup.tp.twitup.observer.database.IDatabaseObservable;
 import com.iup.tp.twitup.observer.session.SessionObserver;
@@ -63,11 +65,23 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	
 	protected PropertiesManager propManager = new PropertiesManager();
 	
+	
+	// CONTROLLER FILS
 	protected AccountController accountController;
 	protected TwitController twitController;
+	private UserListeController userListeController;
+	private UserItemController userItemController;
+	protected TwitListenerController twitListenerController;
+	
+	
+	// OBJET SESSION 
 	protected Session session = null;
 	protected File dossier = null;
+	
+	// CONTROLLER DE NOTIFICATION
 	protected NotificationController notificationController= new NotificationController();
+
+
 	
 
 	/**
@@ -98,6 +112,10 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		// AJOUT DE L'ECOUTE DE LA MAIN VIEW SUR LE CONTROLLER DE NOTIFICATIONS
 		this.notificationController.addObserver(this.mMainView);
 		
+		// AJOUT DU CONTROLLER QUI ECOUTE LA BASE DE DONNES DE TWIT
+		this.twitListenerController = new TwitListenerController(this.session, this.notificationController);
+		this.mDatabase.addObserver(twitListenerController);
+		
 	}
 
 	/**
@@ -113,13 +131,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 		this.mMainView = new TwitupMainView();
 		this.mMainView.addObserver(this);
 		this.mMainView.init();
-		/*dossier = this.mMainView.askDirectory();
-		if(dossier!=null) {
-			this.initDirectory(dossier.getAbsolutePath());
-		}else {
-			System.out.println("ERREUR: Fermeture..." );
-			System.exit(-1);
-		}*/
 	}
 
 	/**
@@ -131,11 +142,8 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	
 	
 	protected void initDirectory() {
-		//System.out.println(System.getProperty("sun.arch.data.model"));
 		String file= getClass().getResource("/configuration.properties").getFile();
-		System.out.println("FILE : " + file );
 		Properties prop =  PropertiesManager.loadProperties(file);
-		System.out.println("mais" + prop);
 		if(prop.getProperty("EXCHANGE_DIRECTORY").length()==0) {
 			dossier = this.mMainView.askDirectory();
 			if(dossier!=null) {
@@ -199,7 +207,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 
 	@Override
 	public void notifyCreateAccountPage() {
-		System.out.println("ouverture du menu de creation de compte");
 		// INSTANCIATION DU CONTROLLER
 	 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session, notificationController);
 	 	// INSTANCIATION DE LA VUE
@@ -212,7 +219,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 
 	@Override
 	public void notifyConnectionPage() {
-		System.out.println("ouverture du menu de connection de compte");
 		if(this.accountController==null) {
 		 	this.accountController = new AccountController(mDatabase, mEntityManager,this.session, notificationController);
 		}
@@ -224,7 +230,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 
 	@Override
 	public void notifyCreationTwitPage() {
-		System.out.println("lancement de la creation de la page de twit");
 		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase,this.notificationController);
 		TwitCreationView toShow = new TwitCreationView();
 		toShow.addObserver(twitController);
@@ -232,9 +237,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	}
 	
 	@Override
-	public void notifyFilTwitPage() {
-		System.out.println("lancement de l'affichage du fil de twit");
-		
+	public void notifyFilTwitPage() {		
 		ListeTwit twits = new ListeTwit(this.mDatabase.getTwits());
 		this.twitController = new TwitController(this.session,this.mEntityManager,this.mDatabase,this.notificationController);
 		this.twitController.setTwits(twits);
@@ -249,7 +252,7 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	public void notifyModificationSession(User user) {
 		if(user!=null) {
 			this.session.setUser(user);
-			System.out.println("Il est connect�");
+			System.out.println("Il est connecte");
 			this.mMainView.printAccountButton();
 		}
 		this.mMainView.repaint();
@@ -258,15 +261,14 @@ public class Twitup implements MainViewObserver, SessionObserver {
 	@Override
 	public void notifyDeconnection() {
 		this.session=new Session();
+		this.session.addObserver(this);
 		this.mMainView.session=this.session;
 		this.mMainView.hideAccountButton();
 		this.mMainView.repaint();
 	}
 
 	@Override
-	public void notifyPrintAllAccountPage() {
-		System.out.println("lancement de l'affichage de la liste des utilisateurs");
-		
+	public void notifyPrintAllAccountPage() {		
 		ListeUser listeUsers = new ListeUser(this.mDatabase.getUsers());
 		this.userListeController = new UserListeController(this.mDatabase);
 		this.userItemController = new UserItemController(this.session, this.mEntityManager);
@@ -280,7 +282,6 @@ public class Twitup implements MainViewObserver, SessionObserver {
 
 	@Override
 	public void notifyProfilPage() {
-		System.out.println("affichage du profil");
 		ProfilPageView ppv = new ProfilPageView(this.session);	
 		this.mMainView.showView(ppv);
 	}

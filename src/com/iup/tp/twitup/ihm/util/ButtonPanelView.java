@@ -29,7 +29,6 @@ public class ButtonPanelView extends JPanel{
 		this.removeAll();
 		this.setLayout(new GridBagLayout());
 		this.observers = vObservers;
-		// TODO Auto-generated constructor stub
 		JButton boutonMireCreationCompte = new JButton("Creer son compte");
 		boutonMireCreationCompte.addActionListener(new ActionListener() {
 			
@@ -49,7 +48,6 @@ public class ButtonPanelView extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				for( MainViewObserver ob: observers) {
 					ob.notifyConnectionPage();
 				}
@@ -60,8 +58,8 @@ public class ButtonPanelView extends JPanel{
 		this.setBorder(new LineBorder(Color.blue));
 	}
 
+	
 	public void showHideButtons() {
-		// TODO Auto-generated method stub
 		System.out.println("Showing hide buttons");
 		
 		// AFFICHAGE DU FIL DE TWIT
@@ -78,7 +76,7 @@ public class ButtonPanelView extends JPanel{
 		this.add(boutonFilTwit, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
 		
 		// AFFICHAGE DE LA LISTE DES UTILISATEURS
-		JButton boutonListeUtilisateur = new JButton("Liste utilisateurs");
+		JButton boutonListeUtilisateur = new JButton("Liste des utilisateurs");
 		boutonListeUtilisateur.addActionListener(new ActionListener() {
 			
 			@Override
@@ -90,13 +88,8 @@ public class ButtonPanelView extends JPanel{
 		});
 		this.add(boutonListeUtilisateur, new GridBagConstraints(3, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
 	
-
-	public void showHideButtons() {
-		// TODO Auto-generated method stub
-		System.out.println("Showing hide buttons");
-		
 		////// BOUTON DE CREATION D'UN TWIT
-		JButton boutonCreationTwit = new JButton("CrÃ©ation d'un twit");
+		JButton boutonCreationTwit = new JButton("Création d'un twit");
 		boutonCreationTwit.addActionListener(new ActionListener() {
 			
 			@Override
@@ -106,7 +99,7 @@ public class ButtonPanelView extends JPanel{
 				}
 			}
 		});
-		this.add(boutonCreationTwit, new GridBagConstraints(3, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
+		this.add(boutonCreationTwit, new GridBagConstraints(4, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));		
 		
 		//////////// BOUTON DE CONSULTATION DE SON PROFIL
 		JButton boutonAfficheProfil = new JButton("Consulter son profil");
@@ -119,11 +112,11 @@ public class ButtonPanelView extends JPanel{
 				}
 			}
 		});
-		this.add(boutonAfficheProfil, new GridBagConstraints(4, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));	
+		this.add(boutonAfficheProfil, new GridBagConstraints(5, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));	
 		
 		
 		
-		JButton boutonDeconnection = new JButton("Se dÃ©connecter");
+		JButton boutonDeconnection = new JButton("Se déconnecter");
 		boutonDeconnection.addActionListener(new ActionListener() {
 			
 			@Override
@@ -133,7 +126,7 @@ public class ButtonPanelView extends JPanel{
 				}
 			}
 		});
-		this.add(boutonDeconnection, new GridBagConstraints(5, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));	
+		this.add(boutonDeconnection, new GridBagConstraints(6, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));	
 
 	}
 }

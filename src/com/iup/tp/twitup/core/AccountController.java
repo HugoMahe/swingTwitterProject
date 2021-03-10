@@ -88,6 +88,7 @@ public class AccountController implements AccountObserver{
 				System.out.println("création de la session");
 				this.controllerNotification.envoyerNotification("Connecté", false);
 				if(this.session!=null) {
+					System.out.println("ici debug");
 					for(SessionObserver so :  this.session.sObservers) {
 						so.notifyModificationSession(user);
 					}

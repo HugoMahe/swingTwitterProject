@@ -23,7 +23,6 @@ public class TwitFilComponent extends JScrollPane implements ListeTwitObserver {
 
 	public TwitFilComponent(List<Twit> twits) {
 		this.twits = new HashMap<>();
-		this.setPreferredSize(new Dimension(250, 300));
 		
 		this.mettreAJourFil(twits);
 	}
